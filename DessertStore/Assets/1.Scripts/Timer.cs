@@ -6,33 +6,33 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     [SerializeField]
-    public Text timerText;  // 타이머text
-    private float timeRemaining = 30f; // test 30초
+    private Text _timerTxt;  // 타이머text
+    private float _timeRemaining = 30f; // test 30초
    // private float timeRemaining = 300f; // 5분 = 300초
-    private bool timerIsRunning = false;
+    private bool _timerIsRunning = false;
 
     private void Start()
     {
         // 타이머 시작
-        timerIsRunning = true;
+        _timerIsRunning = true;
     }
 
     private void Update()
     {
-        if (timerIsRunning)
+        if (_timerIsRunning)
         {
-            if (timeRemaining > 0)
+            if (_timeRemaining > 0)
             {
                 // 타이머 감소
-                timeRemaining -= Time.deltaTime;
-                DisplayTime(timeRemaining);
+                _timeRemaining -= Time.deltaTime;
+                DisplayTime(_timeRemaining);
             }
             else
             {
                 // 타이머 종료 시
                 Debug.Log("타이머 끝");
-                timeRemaining = 0;
-                timerIsRunning = false;
+                _timeRemaining = 0;
+                _timerIsRunning = false;
             }
         }
     }
@@ -46,9 +46,9 @@ public class Timer : MonoBehaviour
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 
         // UI 텍스트 업데이트
-        if (timerText != null)
+        if (_timerTxt != null)
         {
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            _timerTxt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
 }
