@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,13 @@ public class Timer : MonoBehaviour
     private float _timeRemaining = 30f; // test 30√ 
    // private float timeRemaining = 300f; // 5∫– = 300√ 
     private bool _timerIsRunning = false;
+
+    public bool TimerIsRunning
+    {
+        get { return _timerIsRunning; }
+    }
+
+    public Action OnTimerStart { get; internal set; }
 
     private void Start()
     {
