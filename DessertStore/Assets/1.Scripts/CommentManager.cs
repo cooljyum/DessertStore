@@ -6,33 +6,23 @@ using System.IO;
 
 public class CommentManager : MonoBehaviour
 {
-    [SerializeField] private Text _commentPrefab;  //댓글 프리팹
+    [SerializeField] private Text _commentPrefab;  // 댓글 프리팹
     [SerializeField] private Transform _commentParent;  // 댓글 표시될 부모 포지션
     [SerializeField] private float _commentSpeed = 50f;  // 댓글 올라가는 속도
-    [SerializeField] private float _displayInterval = 2f;  //댓글 표시 간격
-    [SerializeField] private int _commentsPerBatch = 5;   //한 번에 스폰할 댓글 개수
+    [SerializeField] private int _initialCommentsCount = 6;  // 처음에 스폰할 댓글 개수
+    [SerializeField] private int _subsequentCommentsCount = 3;  // 그 후 스폰할 댓글 개수
+    [SerializeField] private float _rating = 3.0f;  // 평점
+    [SerializeField] private float _ratingRange = 1.0f;  // 평점 오차범위
+    [SerializeField] private float _positionOffset = 100.0f;  // 위치 offset
 
     private List<CommentData> _comments = new List<CommentData>();  // 댓글 데이터 리스트
-    private float _timer = 0f;
-
-    [SerializeField] private float _rating = 3.0f; //평점
-    [SerializeField] private float _ratingRange = 1.0f; //평점 오차범위
+    private int _outOfBoundsCount = 0;  // 화면을 벗어난 댓글 수
+    private bool _isFirstBatch = true;  // 첫 번째 배치 여부를 확인하는 플래그
 
     private void Start()
     {
         LoadCommentsFromCSV("csv/Comments");  // CSV에서 댓글 데이터 로드
-        ShowBatchOfComments(_rating - _ratingRange, _rating + _ratingRange); 
-    }
-
-    private void Update()
-    {
-        // 타이머를 이용해 일정 시간 간격으로 댓글 표시
-        _timer += Time.deltaTime;
-        if (_timer >= _displayInterval)
-        {
-            _timer = 0f;
-            ShowBatchOfComments(_rating - _ratingRange, _rating + _ratingRange); //평점 오차 범위 -1 ~ +1
-        }
+        ShowBatchOfComments(_initialCommentsCount);  // 처음에 6개 스폰
     }
 
     // 댓글 데이터를 CSV에서 로드
@@ -66,13 +56,13 @@ public class CommentManager : MonoBehaviour
     }
 
     // 댓글을 한 번에 여러 개씩 표시하는 함수
-    private void ShowBatchOfComments(float minRating, float maxRating)
+    private void ShowBatchOfComments(int commentsToSpawn)
     {
         if (_comments.Count == 0) return;
 
-        for (int i = 0; i < _commentsPerBatch; i++)
+        for (int i = 0; i < commentsToSpawn; i++)
         {
-            CommentData selectedComment = GetWeightedRandomComment(minRating, maxRating);
+            CommentData selectedComment = GetWeightedRandomComment(_rating - _ratingRange, _rating + _ratingRange);
             if (selectedComment != null)
             {
                 // 댓글을 화면에 생성하고 위로 스크롤하는 애니메이션
@@ -83,13 +73,12 @@ public class CommentManager : MonoBehaviour
 
                 // Y 위치를 다르게 조정하여 겹치지 않게 설정
                 RectTransform rectTransform = newComment.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = new Vector2(0, -i * 100f); // 30f는 각 댓글 간격, 필요에 따라 조정 가능
+                rectTransform.anchoredPosition = new Vector2(0, (-i * 100f) - _positionOffset); // 각 댓글 간격, 필요에 따라 조정 가능
 
                 StartCoroutine(MoveComment(newComment));
             }
         }
     }
-
 
     // 평점 범위에 따라 무작위로 댓글을 선택하는 함수
     private CommentData GetWeightedRandomComment(float minRating, float maxRating)
@@ -134,30 +123,40 @@ public class CommentManager : MonoBehaviour
     {
         RectTransform rectTransform = comment.GetComponent<RectTransform>();
         RectTransform parentRectTransform = _commentParent.GetComponent<RectTransform>();
-        int outOfBoundsCounter = 0; // 화면을 벗어난 횟수 카운터
 
         while (true)
         {
             rectTransform.anchoredPosition += new Vector2(0, _commentSpeed * Time.deltaTime);
 
             // 화면을 벗어난 경우
-            if (rectTransform.anchoredPosition.y > parentRectTransform.anchoredPosition.y + (parentRectTransform.rect.height / 2)+800.0f)
+            if (rectTransform.anchoredPosition.y > parentRectTransform.anchoredPosition.y + (parentRectTransform.rect.height / 2) + 800.0f)
             {
-                outOfBoundsCounter++; // 카운터 증가
-            }
-
-            // 카운터가 3이 되면 댓글 삭제
-            if (outOfBoundsCounter >= 3)
-            {
+                _outOfBoundsCount++;  // 화면을 벗어난 댓글 수 증가
                 Destroy(comment.gameObject);
+
+                // 3개의 댓글이 화면을 벗어나면 새로운 댓글 표시
+                if (_outOfBoundsCount >= 3)
+                {
+                    _outOfBoundsCount = 0;
+
+                    // 첫 번째 배치 이후는 3개씩 스폰
+                    if (_isFirstBatch)
+                    {
+                        _isFirstBatch = false;
+                    }
+
+                    ShowBatchOfComments(_subsequentCommentsCount);  // 이후부터는 3개씩 스폰
+                }
+
                 yield break; // 코루틴 종료
             }
 
             yield return null; // 다음 프레임까지 대기
         }
     }
-
 }
+
+
 
 // 댓글 데이터 구조체
 [System.Serializable]

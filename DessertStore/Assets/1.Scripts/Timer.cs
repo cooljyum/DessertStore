@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField]
-    private Text _timerTxt;  // 타이머text
-    private float _timeRemaining = 30f; // test 30초
+    [SerializeField] private Text _timerTxt;  // 타이머text
+    [SerializeField] private GameObject _panel;  // 타이머가 끝났을 때 표시할 패널
+
+    private float _timeRemaining = 10f; // test 30초
    // private float timeRemaining = 300f; // 5분 = 300초
     private bool _timerIsRunning = false;
+
 
     public bool TimerIsRunning
     {
@@ -41,6 +43,12 @@ public class Timer : MonoBehaviour
                 Debug.Log("타이머 끝");
                 _timeRemaining = 0;
                 _timerIsRunning = false;
+
+                // 타이머가 끝나면 패널 표시
+                if (_panel != null)
+                {
+                    _panel.GetComponent<PanelHandler>().Show();
+                }
             }
         }
     }
