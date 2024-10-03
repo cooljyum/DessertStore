@@ -8,11 +8,10 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] private Text _timerTxt;  // 타이머text
     [SerializeField] private GameObject _panel;  // 타이머가 끝났을 때 표시할 패널
+    [SerializeField] private bool _timerIsRunning = false; //타이머 bool
 
     private float _timeRemaining = 10f; // test 30초
    // private float timeRemaining = 300f; // 5분 = 300초
-    private bool _timerIsRunning = false;
-
 
     public bool TimerIsRunning
     {
@@ -47,7 +46,11 @@ public class Timer : MonoBehaviour
                 // 타이머가 끝나면 패널 표시
                 if (_panel != null)
                 {
-                    _panel.GetComponent<PanelHandler>().Show();
+                    _panel.SetActive(true); // 패널 활성화
+                }
+                else
+                {
+                    Debug.LogError("패널이 null입니다!");
                 }
             }
         }

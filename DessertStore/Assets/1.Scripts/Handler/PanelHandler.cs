@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PanelHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         // transform 의 scale 값을 모두 0.1f로 변경합니다.
-
-        // 객체를 비활성화 합니다.
+        transform.localScale = Vector3.one * 0.1f;
         gameObject.SetActive(false);
     }
 
