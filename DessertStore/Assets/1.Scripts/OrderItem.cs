@@ -6,35 +6,31 @@ using TMPro;
 
 public class OrderItem : MonoBehaviour
 {
-    [SerializeField] private Image itemImage;        // 음식 이미지
-    [SerializeField] private TextMeshProUGUI itemNameText;      // 음식 이름 텍스트
-    [SerializeField] private TextMeshProUGUI itemCountText;     // 음식 개수 텍스트
-    [SerializeField] private Button completeButton;  // 주문 완료 버튼
+    [SerializeField] private Image _itemImage;                 // 음식 이미지
+    [SerializeField] private TextMeshProUGUI _itemNameText;    // 음식 이름 텍스트
+    public TextMeshProUGUI ItemName => _itemNameText;
+    [SerializeField] private TextMeshProUGUI _itemCountText;   // 음식 개수 텍스트
+    public TextMeshProUGUI ItemCount => _itemCountText;
 
-    private System.Action<OrderItem> onCompleteCallback;
+    private int _remainingCount;                               // 남은 주문 개수
 
-    //주문 항목 초기화//
-    public void SetupOrder(FoodItem foodItem, int itemCount, System.Action<OrderItem> onComplete)
+    // 주문 항목 초기화 //
+    public void SetupOrder(FoodItem foodItem, int itemCount)
     {
-        itemImage.sprite = foodItem.itemImage;           // 음식 이미지 설정
-        itemNameText.text = foodItem.itemName;           // 음식 이름 설정
-        itemCountText.text = "X " + itemCount.ToString();  // 음식 개수 설정
-        onCompleteCallback = onComplete;
-
-        // 버튼 클릭 시 주문 완료 처리
-        completeButton.onClick.AddListener(OnOrderComplete);
+        _itemImage.sprite = foodItem.itemImage;                 // 음식 이미지 설정
+        _itemNameText.text = foodItem.itemName;                 // 음식 이름 설정
+        _itemCountText.text = "X " + itemCount.ToString();      // 음식 개수 설정
+        _remainingCount = itemCount;                            // 주문 초기 남은 개수 설정
     }
 
-    //주문 완료 처리//
-    private void OnOrderComplete()
+    // 주문 완료 처리 (POSManager에서 호출) //
+    public void CompleteOrder()
     {
-        // 주문 완료 시 콜백 호출
-        if (onCompleteCallback != null)
-        {
-            onCompleteCallback(this);
-        }
+        _remainingCount = 0;
+    }
 
-        // UI 비활성화 또는 제거
-        Destroy(gameObject);
+    public bool IsCompleted()
+    {
+        return _remainingCount == 0;
     }
 }

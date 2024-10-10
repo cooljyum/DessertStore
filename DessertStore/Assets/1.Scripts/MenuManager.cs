@@ -5,5 +5,7 @@ using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField] private Transform _menuContent;
+
     
 }
