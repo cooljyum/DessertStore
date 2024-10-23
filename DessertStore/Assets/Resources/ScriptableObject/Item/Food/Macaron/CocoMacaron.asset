@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: CocoMacaron
   itemImage: {fileID: 21300000, guid: 1197fa388aa872a4fb9777aa539ca67d, type: 3}
   itemType: 2
+  itemSize: 11
   maxAmount: 5

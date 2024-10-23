@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: LovelyMacaron
   itemImage: {fileID: 21300000, guid: d010e73f69ecce643b3442d40aa22b35, type: 3}
   itemType: 2
+  itemSize: 11
   maxAmount: 5

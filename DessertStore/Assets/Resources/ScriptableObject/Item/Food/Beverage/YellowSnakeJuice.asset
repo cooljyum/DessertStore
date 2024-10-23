@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: YellowSnakeJuice
   itemImage: {fileID: 21300000, guid: f3ca36dd9b675f64f88ea22c2c56e9a1, type: 3}
   itemType: 1
+  itemSize: 12
   maxAmount: 2

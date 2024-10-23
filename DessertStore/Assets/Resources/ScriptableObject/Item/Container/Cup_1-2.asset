@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: Cup_1-2
   itemImage: {fileID: 21300000, guid: 6f71747486136694c84cb22b043abdc4, type: 3}
   itemType: 0
+  itemSize: 12
   maxAmount: 0

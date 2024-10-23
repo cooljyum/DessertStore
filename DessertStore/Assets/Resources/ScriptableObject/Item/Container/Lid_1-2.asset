@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: Lid_1-2
   itemImage: {fileID: 21300000, guid: 9ab271156a8589e4f882eabc5dd133cb, type: 3}
   itemType: 0
+  itemSize: 12
   maxAmount: 0

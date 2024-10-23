@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: ChocoMudLatte
   itemImage: {fileID: 21300000, guid: e42509901dd74fd489191e4b580ec383, type: 3}
   itemType: 1
+  itemSize: 12
   maxAmount: 2

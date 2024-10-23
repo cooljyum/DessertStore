@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6aa3643e830364f9d01edac75a448d, type: 3}
   m_Name: GhostPudding
   m_EditorClassIdentifier: 
-  itemName: TeddyBearPudding
-  itemImage: {fileID: 21300000, guid: 5709b801c87be064cb64d166a4b35e9e, type: 3}
+  itemName: GhostPudding
+  itemImage: {fileID: 21300000, guid: 9bd9f53472f183b4ebc1ae7b2c5f4060, type: 3}
   itemType: 3
+  itemSize: 22
   maxAmount: 3

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6aa3643e830364f9d01edac75a448d, type: 3}
   m_Name: BearPudding
   m_EditorClassIdentifier: 
-  itemName: TeddyBearPudding
+  itemName: BearPudding
   itemImage: {fileID: 21300000, guid: 5709b801c87be064cb64d166a4b35e9e, type: 3}
   itemType: 3
+  itemSize: 22
   maxAmount: 3

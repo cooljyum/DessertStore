@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: RubyPudding
   itemImage: {fileID: 21300000, guid: 87d0f63430fb7354aa640e3b32c6d0db, type: 3}
   itemType: 3
+  itemSize: 22
   maxAmount: 3

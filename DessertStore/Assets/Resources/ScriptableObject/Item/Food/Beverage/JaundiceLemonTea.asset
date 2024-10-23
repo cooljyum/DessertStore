@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: JaundiceLemonTea
   itemImage: {fileID: 21300000, guid: 6022f497cefde9e4f9906f67a8e62e60, type: 3}
   itemType: 1
+  itemSize: 12
   maxAmount: 2

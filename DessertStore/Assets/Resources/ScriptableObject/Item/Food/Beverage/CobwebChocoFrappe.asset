@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: CobwebChocoFrappe
   itemImage: {fileID: 21300000, guid: b80f80ec5abdebe439000c50312758c8, type: 3}
   itemType: 1
+  itemSize: 13
   maxAmount: 2

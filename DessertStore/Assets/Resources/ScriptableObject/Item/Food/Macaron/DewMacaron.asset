@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: DewMacaron
   itemImage: {fileID: 21300000, guid: d005d6531a567f74997b9f0e50dde58c, type: 3}
   itemType: 2
+  itemSize: 11
   maxAmount: 5
