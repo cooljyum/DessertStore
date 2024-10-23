@@ -7,46 +7,88 @@ using UnityEngine.UI;
 
 public class POSManager : MonoBehaviour
 {
-    [SerializeField] private RoundData _currentRound;        // 현재 라운드 데이터
-    [SerializeField] private GameObject _orderPanel;         // 주문서 UI가 표시될 패널
-    [SerializeField] private GameObject _orderItemPrefab;    // 주문 항목 UI 프리팹
-    [SerializeField] private Button _readyButton;            // 주문 준비 완료 버튼
+    [SerializeField] private RoundData _currentRound;
+    [SerializeField] private GameObject _orderPanel;
+    [SerializeField] private GameObject _orderItemPrefab;
+    [SerializeField] private Button _readyButton;
+    public Button ReadyButton => _readyButton;
 
-    private List<OrderItem> _activeOrders = new List<OrderItem>();  // 현재 활성화된 주문들
-    private bool _allOrdersComplete = false;
+    private List<OrderItem> _activeOrders = new List<OrderItem>();
+    private HashSet<ItemData> _usedFoodItems = new HashSet<ItemData>(); // 중복 방지
 
-    private ColorBlock _defaultButtonColors;   // 버튼의 기본 색상
-    private ColorBlock _disabledButtonColors;  // 버튼이 비활성화된 상태의 색상
+    private ColorBlock _defaultButtonColors;
+    private ColorBlock _disabledButtonColors;
+    private float _roundTime = 60f;
+    private float _remainingTime;
+    private bool _isRoundActive = false;
+    private int _currentOrderIndex = 0; // 현재 처리 중인 주문서 인덱스
+    private int _currentRoundNumber = 1; // 현재 라운드 번호
 
     private void Start()
     {
-        // Ready 버튼 기본 색상 저장
         _defaultButtonColors = _readyButton.colors;
 
-        // 비활성화 상태에서의 색상 설정 (밝기를 30% 어둡게)
         _disabledButtonColors = _defaultButtonColors;
         _disabledButtonColors.normalColor = new Color(
-            _defaultButtonColors.normalColor.r * 0.7f,
-            _defaultButtonColors.normalColor.g * 0.7f,
-            _defaultButtonColors.normalColor.b * 0.7f
+            _defaultButtonColors.normalColor.r * 0.5f,
+            _defaultButtonColors.normalColor.g * 0.5f,
+            _defaultButtonColors.normalColor.b * 0.5f
         );
 
-        // 게임 시작 시 첫 주문서 생성
-        CreateNewOrder();
-
-        // 처음에는 주문이 완료되지 않았으므로 버튼 비활성화 상태로 시작
-        SetReadyButtonInteractable(false);
+        StartNewRound();
     }
 
     private void Update()
     {
-        // Ready 버튼 상태를 갱신
+        if (_isRoundActive)
+        {
+            _remainingTime -= Time.deltaTime;
+
+            if (_remainingTime <= 0)
+            {
+                // 제한 시간 초과 시 라운드 실패
+                Debug.Log($"라운드 {_currentRoundNumber} 실패!");
+                RestartRound();
+            }
+        }
+
         UpdateReadyButton();
+    }
+
+    // (처음, 성공 후 다음) 라운드 시작 //
+    private void StartNewRound()
+    {
+        Debug.Log($"라운드 {_currentRoundNumber} 시작!");
+        _isRoundActive = true;
+        _remainingTime = _roundTime;
+
+        _currentOrderIndex = 0;  // 첫 주문서부터 시작
+        _usedFoodItems.Clear();  // 중복 방지 초기화
+        CreateNewOrder();        // 첫 주문서 생성
+        SetReadyButtonInteractable(false);
+    }
+
+    // (실패 후) 라운드 재시작 //
+    private void RestartRound()
+    {
+        _isRoundActive = false;
+        _currentRoundNumber++;  // 라운드 실패 시 라운드 번호 증가
+        StartNewRound();
     }
 
     // 새로운 주문서 생성 //
     private void CreateNewOrder()
     {
+        if (_currentOrderIndex >= 10)
+        {
+            // 모든 주문서 처리 완료 시 라운드 성공
+            Debug.Log($"라운드 {_currentRoundNumber} 성공!");
+            _isRoundActive = false;
+            _currentRoundNumber++;
+            StartNewRound(); // 새로운 라운드 시작
+            return;
+        }
+
         // 기존 주문서 초기화
         foreach (Transform child in _orderPanel.transform)
         {
@@ -54,40 +96,35 @@ public class POSManager : MonoBehaviour
         }
         _activeOrders.Clear();
 
-        // 랜덤한 개수의 음식을 선택해 주문서 생성
-        int orderCount = Random.Range(1, _currentRound.maxOrders + 1);  // 1 ~ maxOrders 사이의 랜덤 값
-        float itemHeight = _orderItemPrefab.GetComponent<RectTransform>().rect.height; // 주문 항목 높이
-        Vector3 startPosition = new Vector2(-660, 200); // 시작 위치
-
-        for (int i = 0; i < orderCount; i++)
+        ItemData randomFood;
+        do
         {
-            // 랜덤한 음식 메뉴 선택
-            FoodItem randomFood = _currentRound.availableMenu[Random.Range(0, _currentRound.availableMenu.Length)];
+            randomFood = _currentRound.availableMenu[Random.Range(0, _currentRound.availableMenu.Length)];
+        } while (_usedFoodItems.Contains(randomFood)); // 중복 방지
 
-            // 주문 항목 UI 생성
-            GameObject orderItemObject = Instantiate(_orderItemPrefab, _orderPanel.transform);
+        _usedFoodItems.Add(randomFood);
 
-            // OrderItem UI 컴포넌트 설정
-            OrderItem orderItem = orderItemObject.GetComponent<OrderItem>();
-            orderItem.SetupOrder(randomFood, Random.Range(1, randomFood.maxAmount));
+        GameObject orderItemObject = Instantiate(_orderItemPrefab, _orderPanel.transform);
+        OrderItem orderItem = orderItemObject.GetComponent<OrderItem>();
+        orderItem.SetupOrder(randomFood, Random.Range(1, randomFood.maxAmount));
 
-            // 위치 조정
-            RectTransform rectTransform = orderItemObject.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = new Vector2(0, startPosition.y - (itemHeight * i)); // 위치 조정
+        RectTransform rectTransform = orderItemObject.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(0, 200); // 주문서 위치 조정
 
-            _activeOrders.Add(orderItem);
-        }
+        // 아이템 카운트 위치 이동
+        orderItem.ItemCount.rectTransform.anchoredPosition = new Vector2(300, orderItem.ItemCount.rectTransform.anchoredPosition.y);
 
-        // Ready 버튼을 비활성화 상태로 초기화
-        SetReadyButtonInteractable(false);
+        _activeOrders.Add(orderItem);
+
+        _currentOrderIndex++; // 주문서 인덱스 증가
     }
 
-    // Ready 버튼 상태 갱신
+    // 준비 버튼 상태 업데이트 //
     private void UpdateReadyButton()
     {
-        // 모든 주문이 완료되었는지 확인
         bool allOrdersCompleted = true;
 
+        // 모든 주문이 완료되었는지 확인
         foreach (var order in _activeOrders)
         {
             if (!order.IsCompleted())
@@ -97,33 +134,55 @@ public class POSManager : MonoBehaviour
             }
         }
 
-        // 모든 주문이 완료되면 Ready 버튼을 활성화
-        SetReadyButtonInteractable(allOrdersCompleted);
-    }
-
-    // Ready 버튼 상호작용 가능 여부와 색상 변경
-    private void SetReadyButtonInteractable(bool interactable)
-    {
-        _readyButton.interactable = interactable;
-
-        // 상호작용 가능 여부에 따라 버튼 색상 변경
-        if (interactable)
+        // 준비 버튼이 유효한지 확인
+        if (_readyButton != null)
         {
-            _readyButton.colors = _defaultButtonColors;   // 기본 색상으로 복귀
+            SetReadyButtonInteractable(allOrdersCompleted);
         }
         else
         {
-            _readyButton.colors = _disabledButtonColors;  // 어두운 색상으로 변경
+            Debug.LogWarning("ReadyButton이 유효하지 않습니다. 버튼이 이미 파괴된 상태입니다.");
         }
     }
 
-    // 주문 완료 콜백 //
-    private void OnOrderCompleted(OrderItem orderItem)
+    // 준비 버튼 클릭 가능 여부 세팅 //
+    private void SetReadyButtonInteractable(bool interactable)
     {
-        // 주문 항목 완료 처리
-        orderItem.CompleteOrder();
+        if (_readyButton != null) // 버튼이 유효한지 다시 한 번 체크
+        {
+            _readyButton.gameObject.SetActive(true); // 버튼 활성화
+            _readyButton.interactable = interactable;
 
-        // Ready 버튼 상태 업데이트
-        UpdateReadyButton();
+            if (interactable)
+            {
+                _readyButton.colors = _defaultButtonColors;
+                _readyButton.onClick.RemoveAllListeners();
+                _readyButton.onClick.AddListener(CreateNewOrder); // Ready 버튼을 누르면 새로운 주문서 생성
+            }
+            else
+            {
+                _readyButton.colors = _disabledButtonColors;
+            }
+        }
+        else
+        {
+            Debug.LogError("ReadyButton이 null 상태입니다. SetReadyButtonInteractable에서 호출되었습니다.");
+        }
+    }
+
+    // 현재 활성화된 주문서 리스트 반환 //
+    public List<OrderItem> GetActiveOrders()
+    {
+        return _activeOrders;
+    }
+
+    // Ready 버튼이 눌렸을 때 처리 //
+    public void OnReadyButtonClicked()
+    {
+        // 다음 주문서 생성
+        CreateNewOrder();
+
+        // 선택한 음식 초기화
+        UIManager.Instance.GetComponent<MenuManager>().ResetSelection();
     }
 }

@@ -6,6 +6,6 @@ using UnityEngine;
 public class RoundData : ScriptableObject
 {
     public int roundNumber;          // 라운드 번호
-    public FoodItem[] availableMenu; // 해당 라운드에서 주문 가능한 음식 목록
+    public ItemData[] availableMenu; // 해당 라운드에서 주문 가능한 음식 목록
     public int maxOrders;            // 해당 라운드에서 최대 주문 개수
 }

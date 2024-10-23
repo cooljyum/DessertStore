@@ -15,7 +15,7 @@ public class OrderItem : MonoBehaviour
     private int _remainingCount;                               // 남은 주문 개수
 
     // 주문 항목 초기화 //
-    public void SetupOrder(FoodItem foodItem, int itemCount)
+    public void SetupOrder(ItemData foodItem, int itemCount)
     {
         _itemImage.sprite = foodItem.itemImage;                 // 음식 이미지 설정
         _itemNameText.text = foodItem.itemName;                 // 음식 이름 설정

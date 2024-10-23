@@ -10,7 +10,8 @@ public class Timer : MonoBehaviour
     [SerializeField] private GameObject _panel;  // 타이머가 끝났을 때 표시할 패널
     [SerializeField] private bool _timerIsRunning = false; //타이머 bool
 
-    private float _timeRemaining = 10f; // test 30초
+    private float _timeRemaining = 60f;
+    public float TimeRemaining => _timeRemaining;
    // private float timeRemaining = 300f; // 5분 = 300초
 
     public bool TimerIsRunning

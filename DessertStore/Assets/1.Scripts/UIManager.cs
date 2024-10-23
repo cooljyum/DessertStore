@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private POSManager _posPanel;
 
     private List<Button> _menuButtons;  // Menu-음식 버튼들
-    private Button _readyButton;        // POS-준비 완료 버튼
 
     private List<OrderItem> _currentOrders;
     private Dictionary<string, int> _selectedFoodCount = new Dictionary<string, int>();
@@ -30,7 +29,7 @@ public class UIManager : MonoBehaviour
     }
 
     // 메뉴 버튼 설정 및 초기화 //
-    public void SetupMenuButtons(FoodItem[] availableMenu, List<OrderItem> orders)
+    public void SetupMenuButtons(ItemData[] availableMenu, List<OrderItem> orders)
     {
         _currentOrders = orders;
         _selectedFoodCount.Clear();
@@ -40,11 +39,12 @@ public class UIManager : MonoBehaviour
         {
             if (i < availableMenu.Length)
             {
-                FoodItem foodItem = availableMenu[i];
+                ItemData foodItem = availableMenu[i];
                 _menuButtons[i].gameObject.SetActive(true);
                 _menuButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = foodItem.itemName;
+                // 버튼 클릭 이벤트를 MenuManager의 OnMenuButtonClick 메서드로 설정
                 _menuButtons[i].onClick.RemoveAllListeners();
-                _menuButtons[i].onClick.AddListener(() => OnMenuButtonClick(foodItem));
+                _menuButtons[i].onClick.AddListener(() => _menuPanel.OnMenuButtonClick(foodItem.itemName));
             }
             else
             {
@@ -52,23 +52,6 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        UpdateReadyButton();
-    }
-
-    private void OnMenuButtonClick(FoodItem foodItem) // 메뉴 버튼 클릭 시 실행
-    {
-        // 해당 음식이 처음 클릭된 경우
-        if (!_selectedFoodCount.ContainsKey(foodItem.itemName))
-        {
-            _selectedFoodCount[foodItem.itemName] = 1;
-        }
-        else
-        {
-            // 이미 선택된 음식이면 수량 증가
-            _selectedFoodCount[foodItem.itemName]++;
-        }
-
-        // 버튼 클릭 후 상태 업데이트
         UpdateReadyButton();
     }
 
@@ -87,15 +70,44 @@ public class UIManager : MonoBehaviour
             if (!_selectedFoodCount.ContainsKey(orderItemName) || _selectedFoodCount[orderItemName] < orderItemCount)
             {
                 allOrdersReady = false;
-                break;
+                break; // 조건이 만족되지 않을 경우 루프 종료
             }
         }
 
-        // POSManager의 주문 완성 버튼을 통해 상태 업데이트 //
-        foreach (var orderItem in _currentOrders)
+        // Ready 버튼 상태 갱신
+        if (_posPanel.ReadyButton != null) // 버튼이 null인지 확인
         {
-            Button completeButton = orderItem.GetComponentInChildren<Button>();
-            completeButton.interactable = allOrdersReady;
+            _posPanel.ReadyButton.interactable = allOrdersReady; // 한 번만 업데이트
         }
+        else
+        {
+            Debug.LogWarning("ReadyButton이 유효하지 않습니다.");
+        }
+    }
+
+    // 메뉴에서 선택한 음식 카운트와 현재 주문서를 비교 //
+    public void CheckOrderStatus(Dictionary<string, int> selectedFoodCount)
+    {
+        bool allOrdersReady = false;
+
+        foreach (var order in _posPanel.GetActiveOrders())
+        {
+            string orderItemName = order.ItemName.text;
+            int orderItemCount = int.Parse(order.ItemCount.text.Substring(2));
+
+            // 선택한 음식 수량이 정확한 경우 true로 변경
+            if (selectedFoodCount.ContainsKey(orderItemName) && selectedFoodCount[orderItemName] >= orderItemCount)
+            {
+                allOrdersReady = true;
+            }
+            else
+            {
+                allOrdersReady = false; // 하나라도 조건이 맞지 않으면 false
+                break; // 조건이 만족되지 않으면 더 확인할 필요가 없으니 루프 종료
+            }
+        }
+
+        // Ready 버튼 상태 갱신
+        _posPanel.ReadyButton.interactable = allOrdersReady;
     }
 }
