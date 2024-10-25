@@ -7,14 +7,23 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    static public UIManager Instance;
+    public static UIManager Instance;
 
     [Header("UI Panel")]
     [SerializeField] private POSManager _posPanel;
+    [SerializeField] private MenuManager _menuPanel;
+    public MenuManager MenuPanel { get { return _menuPanel; } }
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // 메뉴에서 선택한 음식 카운트와 현재 주문서를 비교 //
@@ -28,10 +37,19 @@ public class UIManager : MonoBehaviour
             int orderItemCount = int.Parse(order.ItemCount.text.Substring(2));
 
             // 선택한 음식 수량이 정확한지 확인
-            if (!selectedFoodCount.ContainsKey(orderItemName) || selectedFoodCount[orderItemName] < orderItemCount)
+            if (!selectedFoodCount.TryGetValue(orderItemName, out int selectedCount))
             {
+                Debug.Log($"선택되지 않은 항목: {orderItemName}");
                 allOrdersReady = false;
-                break;
+            }
+            else if (selectedCount != orderItemCount)
+            {
+                Debug.Log($"수량 불일치: {orderItemName} (선택된 수량: {selectedCount}, 주문된 수량: {orderItemCount})");
+                allOrdersReady = false;
+            }
+            else
+            {
+                Debug.Log($"일치: {orderItemName} (수량: {selectedCount})");
             }
         }
 

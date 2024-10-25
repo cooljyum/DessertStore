@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6aa3643e830364f9d01edac75a448d, type: 3}
   m_Name: Cup_1-2
   m_EditorClassIdentifier: 
-  itemName: Cup_1-2
-  itemImage: {fileID: 21300000, guid: 6f71747486136694c84cb22b043abdc4, type: 3}
+  itemName: "\uCEF5 1*2"
+  itemImage: {fileID: 21300000, guid: 0ce09cf634c32204c8e2e73ee43fd6bc, type: 3}
   itemType: 0
   itemSize: 12
   maxAmount: 0

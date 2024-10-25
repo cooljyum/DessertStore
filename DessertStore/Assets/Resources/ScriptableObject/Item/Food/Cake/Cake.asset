@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6aa3643e830364f9d01edac75a448d, type: 3}
   m_Name: Cake
   m_EditorClassIdentifier: 
-  itemName: Cake
+  itemName: "\uCF00\uC774\uD06C"
   itemImage: {fileID: 0}
   itemType: 4
+  itemSize: 0
   maxAmount: 1

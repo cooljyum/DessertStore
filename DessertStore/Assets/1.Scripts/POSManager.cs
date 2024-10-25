@@ -12,6 +12,7 @@ public class POSManager : MonoBehaviour
     [SerializeField] private GameObject _orderItemPrefab;
     [SerializeField] private Button _readyButton;
     public Button ReadyButton => _readyButton;
+    [SerializeField] private Button _returnButton;
 
     private List<OrderItem> _activeOrders = new List<OrderItem>();
     private HashSet<ItemData> _usedFoodItems = new HashSet<ItemData>();
@@ -24,6 +25,7 @@ public class POSManager : MonoBehaviour
 
     private void Start()
     {
+        _returnButton.onClick.AddListener(OnReturnButtonClicked);
         StartNewRound();
     }
 
@@ -43,7 +45,6 @@ public class POSManager : MonoBehaviour
         UpdateReadyButton();
     }
 
-    // 새로운 라운드 시작 //
     private void StartNewRound()
     {
         Debug.Log($"라운드 {_currentRoundNumber} 시작!");
@@ -55,7 +56,6 @@ public class POSManager : MonoBehaviour
         CreateNewOrder();
     }
 
-    // 라운드 재시작 (실패 시 호출) //
     private void RestartRound()
     {
         _isRoundActive = false;
@@ -63,7 +63,6 @@ public class POSManager : MonoBehaviour
         StartNewRound();
     }
 
-    // 새로운 주문서 생성 //
     private void CreateNewOrder()
     {
         if (_currentOrderIndex >= 10)
@@ -75,14 +74,12 @@ public class POSManager : MonoBehaviour
             return;
         }
 
-        // 기존 주문 패널의 모든 주문 항목 제거
         foreach (Transform child in _orderPanel.transform)
         {
             Destroy(child.gameObject);
         }
         _activeOrders.Clear();
 
-        // 사용되지 않은 음식 항목 중에서 무작위로 하나 선택
         ItemData randomFood;
         do
         {
@@ -91,7 +88,6 @@ public class POSManager : MonoBehaviour
 
         _usedFoodItems.Add(randomFood);
 
-        // 새로운 주문 항목 생성 및 설정
         GameObject orderItemObject = Instantiate(_orderItemPrefab, _orderPanel.transform);
         OrderItem orderItem = orderItemObject.GetComponent<OrderItem>();
         orderItem.SetupOrder(randomFood, Random.Range(1, randomFood.maxAmount));
@@ -101,12 +97,10 @@ public class POSManager : MonoBehaviour
         SetReadyButtonInteractable(false);
     }
 
-    // Ready버튼 상태 업데이트 //
     private void UpdateReadyButton()
     {
         bool allOrdersCompleted = true;
 
-        // 모든 주문이 완료되었는지 확인
         foreach (var order in _activeOrders)
         {
             if (!order.IsCompleted())
@@ -116,11 +110,9 @@ public class POSManager : MonoBehaviour
             }
         }
 
-        // Ready 버튼 활성화 여부 설정
         SetReadyButtonInteractable(allOrdersCompleted);
     }
 
-    // Ready 버튼의 상호작용 가능 여부 설정 //
     private void SetReadyButtonInteractable(bool interactable)
     {
         _readyButton.interactable = interactable;
@@ -133,23 +125,34 @@ public class POSManager : MonoBehaviour
         _readyButton.colors = buttonColors;
     }
 
-    // 모든 주문을 완료 처리 후 새로운 주문 생성 (Ready 버튼 클릭 시 호출) //
     public void OnReadyButtonClicked()
     {
-        // 모든 주문을 완료로 설정
         foreach (var order in _activeOrders)
         {
             order.CompleteOrder();
         }
 
-        // 메뉴 선택 초기화 및 새로운 주문 생성
         UIManager.Instance.GetComponent<MenuManager>().ResetSelection();
         CreateNewOrder();
     }
 
-    // 현재 활성화된 주문 항목 리스트 반환 //
     public List<OrderItem> GetActiveOrders()
     {
         return _activeOrders;
+    }
+
+    private void OnReturnButtonClicked()
+    {
+        // UIManager의 _menuPanel을 통해 MenuManager 인스턴스를 참조
+        var menuManager = UIManager.Instance.MenuPanel;
+        if (menuManager != null)
+        {
+            menuManager.ResetSelection();
+            Debug.Log("모든 선택된 음식 수량 초기화 완료.");
+        }
+        else
+        {
+            Debug.LogError("MenuManager가 초기화되지 않았습니다.");
+        }
     }
 }

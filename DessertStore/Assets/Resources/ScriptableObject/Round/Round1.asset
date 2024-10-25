@@ -17,4 +17,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59cdb7b3d04a03a49917b4b78fe38ff6, type: 2}
   - {fileID: 11400000, guid: fb179632e316ce443a1c8fe14edb76ba, type: 2}
   - {fileID: 11400000, guid: e7f5cba5493f0b348bbd6599931cbb2b, type: 2}
+  - {fileID: 11400000, guid: 9007e361fa2a66f4fa37833d72874137, type: 2}
+  - {fileID: 11400000, guid: c1a11ae5a71141e4bbc1fe1055507bd7, type: 2}
   maxOrders: 2
