@@ -13,7 +13,7 @@ public class DragItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
     // 아이템이 차지하는 그리드 크기 (1x2)
     public int width = 1;
-    public int height = 2;
+    public int height = 1;
 
     private void Start()
     {
@@ -32,7 +32,7 @@ public class DragItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
         isDragging = false;
 
         // 그리드 매니저에 현재 위치와 아이템의 크기를 보내 가장 가까운 1x2 그리드 위치를 가져옴
-        Vector2 closestGridPosition = gridManager.FindClosestGridPosition(transform.position, width, height);
+        Vector2 closestGridPosition = gridManager.FindClosestGridPosition(this.gameObject, width, height);
 
         // 아이템의 위치를 그리드에 맞춰 조정
         transform.position = new Vector3(closestGridPosition.x, closestGridPosition.y, transform.position.z);
