@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: "\uAC1C\uAD6C\uB9AC\uB179\uCC28\uD504\uB77C\uD398"
   itemImage: {fileID: 21300000, guid: 970924d15bca36b40ba500110418ecbd, type: 3}
   itemType: 1
-  itemSize: 13
+  itemSize: {x: 1, y: 3}
   maxAmount: 2

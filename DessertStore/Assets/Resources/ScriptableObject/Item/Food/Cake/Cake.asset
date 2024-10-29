@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: "\uCF00\uC774\uD06C"
   itemImage: {fileID: 0}
   itemType: 4
-  itemSize: 0
+  itemSize: {x: 3, y: 3}
   maxAmount: 1

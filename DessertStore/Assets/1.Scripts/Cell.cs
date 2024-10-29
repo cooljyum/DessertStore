@@ -6,11 +6,15 @@ using UnityEngine.UI; // UI 네임스페이스 추가
 public class Cell : MonoBehaviour
 {
     [SerializeField] private int _xIndex;
+    public int xIndex
+    { get { return _xIndex; } }
     [SerializeField] private int _yIndex;
+    public int yIndex
+    { get { return _yIndex; } }
     [SerializeField] private bool _isActive;
 
     [SerializeField] private DragItem _occupyingItem; // 해당 셀을 차지하는 아이템 (없으면 null)
-    private GridManager _gridManager;
+
     private Image _cellImg; // Image 컴포넌트 추가
 
     private void Start()
@@ -21,7 +25,6 @@ public class Cell : MonoBehaviour
 
     public void Initialize(GridManager manager, int x, int y)
     {
-        _gridManager = manager;
         _xIndex = x;
         _yIndex = y;
     }
@@ -84,5 +87,10 @@ public class Cell : MonoBehaviour
         {
             _cellImg.color = Color.yellow; // 노란색으로 설정
         }
+    }
+
+    public void ChangeColor(Color color)
+    {
+        _cellImg.color = color;   
     }
 }
