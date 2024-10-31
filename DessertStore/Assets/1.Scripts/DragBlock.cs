@@ -65,7 +65,7 @@ public class DragBlock : MonoBehaviour
 
         bool isPackagingItem = _itemData.itemType == 0;
 
-        selectedCells = GridManager.Instance.CheckCellOverlap(_collider, _itemData.itemSize.x, _itemData.itemSize.y, isPackagingItem); // 업데이트된 리스트를 반환받음
+        selectedCells = GridManager.Instance.CheckCellOverlap(_collider, _itemData.itemSize.x, _itemData.itemSize.y, _itemData.orderIndex); // 업데이트된 리스트를 반환받음
     }
 
     private void OnMouseUp()
@@ -87,7 +87,7 @@ public class DragBlock : MonoBehaviour
             // 각 선택된 셀에 이 아이템을 배치했다고 표시
             foreach (var cell in selectedCells)
             {
-                cell.SetOccupyingItem(this);
+                cell.AddOccupyingItem(this);
             }
         }
 

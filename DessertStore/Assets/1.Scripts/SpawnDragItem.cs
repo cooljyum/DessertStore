@@ -7,6 +7,11 @@ public class SpawnDragItem : MonoBehaviour, IPointerDownHandler
     [SerializeField] private GameObject _dropItem;
     [SerializeField] private ItemData _itemData; // 아이템 데이터를 드래그 아이템에 전달
 
+    public void Setup(ItemData itemData) 
+    {
+        _itemData = itemData;
+    }
+
     // 마우스를 눌렀을 때 호출되는 함수
     public void OnPointerDown(PointerEventData eventData)
     {

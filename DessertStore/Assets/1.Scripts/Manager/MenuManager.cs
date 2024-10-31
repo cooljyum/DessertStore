@@ -59,12 +59,14 @@ public class MenuManager : MonoBehaviour
         // 선택된 카테고리의 아이템만 버튼으로 생성
         foreach (ItemData item in _allItems)
         {
-            if (item.itemType == category)
+            if ((int)item.itemType == category)
             {
                 GameObject newButton = Instantiate(_menuBtnPrefab, _menuContent);
 
                 newButton.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
                 newButton.GetComponentInChildren<Image>().sprite = item.itemImage;
+
+                newButton.GetComponent<SpawnDragItem>().Setup(item);
 
                 Button buttonComponent = newButton.GetComponent<Button>();
                 _menuBtns[item.itemName] = buttonComponent;
@@ -93,7 +95,7 @@ public class MenuManager : MonoBehaviour
                 Debug.Log($"{item.Key}의 클릭 횟수: {item.Value}");
             }
 
-            UIManager.Instance.CheckOrderStatus(_selectedFoodCount);
+           // UIManager.Instance.CheckOrderStatus(_selectedFoodCount);
         }
     }
 

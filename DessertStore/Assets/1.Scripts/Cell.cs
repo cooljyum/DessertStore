@@ -6,28 +6,44 @@ using UnityEngine.UI; // UI 네임스페이스 추가
 public class Cell : MonoBehaviour
 {
     [SerializeField] private int _xIndex;
-    public int xIndex
-    { get { return _xIndex; } }
+    public int xIndex { get { return _xIndex; } }
 
     [SerializeField] private int _yIndex;
-    public int yIndex
-    { get { return _yIndex; } }
+    public int yIndex { get { return _yIndex; } }
 
-    [SerializeField] private bool _isActive;
-    public bool isActive
-    { get { return _isActive; } }
-
-    [SerializeField] private DragBlock _occupyingItem; // 해당 셀을 차지하는 아이템 (없으면 null)
+    private List<DragBlock> _occupyingItems = new List<DragBlock>(); // 해당 셀을 차지하는 아이템 리스트
 
     private SpriteRenderer _cellImg; // Image 컴포넌트 추가
-
-    // 포장 아이템이 차지했는지 여부
-    [SerializeField] private bool _isOccupiedByPackaging;
 
     private void Start()
     {
         // 셀의 Image 컴포넌트를 가져옵니다.
         _cellImg = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        // 마우스 오른쪽 버튼 클릭 감지
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (!IsOccupied()) return;
+            // 마우스 위치에서 Raycast를 쏴서 클릭된 셀을 찾습니다.
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit.collider != null && hit.collider.gameObject == gameObject) // 자신이 클릭되었는지 확인
+            {
+                ClearItems(); // 아이템을 제거하는 메서드 호출
+                Debug.Log("셀의 아이템이 제거되었습니다. 위치: (" + _xIndex + ", " + _yIndex + ")");
+            }
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        if (Input.GetMouseButtonDown(1)) // 오른쪽 마우스 버튼 클릭
+        {
+            Debug.Log("오른쪽 클릭이 감지되었습니다.");
+            ClearItems(); // 아이템 제거 메서드 호출
+        }
     }
 
     public void Initialize(GridManager manager, int x, int y)
@@ -36,96 +52,66 @@ public class Cell : MonoBehaviour
         _yIndex = y;
     }
 
+    // 셀에 아이템을 추가
+    public void AddOccupyingItem(DragBlock item)
+    {
+        _occupyingItems.Add(item);
+        UpdateCellColor();
+    }
+
     // 셀이 아이템을 차지했는지 확인
     public bool IsOccupied()
     {
-        return _occupyingItem != null;
+        return _occupyingItems.Count > 0; // 리스트에 아이템이 있으면 occupied
     }
 
-    public bool CanPlacePackaging()
+    // 셀의 아이템들을 파괴
+    public void ClearItems()
     {
-        // 포장 아이템이 차지하지 않는 경우에만 True 반환
-        return !_isOccupiedByPackaging;
-    }
-
-    public void SetOccupyingItem(DragBlock item)
-    {
-       // _occupyingItem = item;
-        _isActive = item != null;
-
-        if (item != null && item.ItemData.itemType == 0) // 포장 아이템인 경우
+        foreach (var item in _occupyingItems)
         {
-            _isOccupiedByPackaging = true; // 포장 아이템이 차지함
-            _cellImg.color = Color.green; // 아이템이 배치되면 초록색 변경
+            if (item != null)
+            {
+                Destroy(item.gameObject); // 아이템 파괴
+            }
+        }
+        _occupyingItems.Clear(); // 리스트 초기화
+        UpdateCellColor();
+    }
+
+    private void UpdateCellColor()
+    {
+        if (_occupyingItems.Count > 0)
+        {
+            _cellImg.color = Color.green; // 아이템이 있을 때 초록색으로 변경
         }
         else
         {
-            _isOccupiedByPackaging = false; // 비포장 아이템은 차지하지 않음
-            _cellImg.color = Color.yellow; // 아이템이 배치되면 노란색으로 변경
+            _cellImg.color = Color.white; // 비어 있으면 흰색으로 변경
         }
-
-        
     }
 
-    // 셀에 아이템 배치
-    public void SetItem(DragBlock item)
+    public List<DragBlock> GetOccupyingItems()
     {
-        SetOccupyingItem(item);
+        return _occupyingItems;
     }
 
-    // 셀에서 아이템 제거
-    public void ClearItem()
+    // 셀의 마지막 아이템의 orderIndex를 반환
+    public int GetLastOccupyingItemOrderIndex()
     {
-        if (_occupyingItem != null && _occupyingItem.ItemData.itemType == 0) // 포장 아이템이 제거될 경우
+        if (_occupyingItems.Count > 0)
         {
-            _isOccupiedByPackaging = false; // 포장 아이템 점유 해제
+            return _occupyingItems[_occupyingItems.Count - 1].ItemData.orderIndex; // 마지막 아이템의 orderIndex 반환
         }
-
-        _occupyingItem = null;
-        _isActive = false;
-
-        // 셀 색상을 원래대로 변경 (비어 있는 상태)
-        if (_cellImg != null)
-        {
-            _cellImg.color = Color.white;
-        }
-    }
-
-    public DragBlock GetOccupyingItem()
-    {
-        return _occupyingItem;
-    }
-
-    // 셀을 클릭할 때 호출
-    public void ClickCell()
-    {
-        PrintIndex(); // 인덱스 출력
-        ChangeColor(); // 색깔 변경
-    }
-
-    private void PrintIndex()
-    {
-        Debug.Log($"xIndex: {_xIndex}, yIndex: {_yIndex}");
-    }
-
-    private void ChangeColor()
-    {
-        _isActive = true;
-
-        // 셀의 색깔을 변경
-        if (_cellImg != null)
-        {
-            _cellImg.color = Color.yellow; // 노란색으로 설정
-        }
+        return -1; // 아이템이 없으면 -1 반환 (또는 다른 기본값)
     }
 
     public void ChangeColor(Color color)
     {
-        _cellImg.color = color;
-    }
-
-    public bool HasPackagingItem()
-    {
-        return _isOccupiedByPackaging;
+        // 셀의 색깔을 변경
+        if (_cellImg != null)
+        {
+            _cellImg.color = color;
+        }
     }
 }
