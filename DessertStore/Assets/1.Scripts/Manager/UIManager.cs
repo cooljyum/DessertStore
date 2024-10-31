@@ -16,6 +16,10 @@ public class UIManager : MonoBehaviour
     public MenuManager MenuPanel => _menuPanel;
     [SerializeField] private PopUpManager _popUpPanel;
     public PopUpManager PopUpPanel => _popUpPanel;
+    [SerializeField] private GameObject _storyPanel;
+    public GameObject StoryPanel => _storyPanel;
+    [SerializeField] private GameObject _stagePanel;
+    public GameObject StagePanel => _stagePanel;
 
     [Header("Start Panel")]
     private int _currentDayNumber = 1;

@@ -11,7 +11,7 @@ public class WitchManager : MonoBehaviour
     // 마녀 표정 이미지 세팅 //
     public void ChangeWitchFace(string expression)
     {
-        Sprite newFace = Resources.Load<Sprite>($"Witch/{expression}");
+        Sprite newFace = Resources.Load<Sprite>($"Sprite/WitchFace/{expression}");
 
         if (expression == "neutral")
         {
