@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 2637725888180055379}
   - component: {fileID: 1204170766227818881}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Canvas_Lee_1030
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
