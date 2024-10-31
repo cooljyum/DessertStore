@@ -16,7 +16,7 @@ public class SpawnDragItem : MonoBehaviour, IPointerDownHandler
     // 드래그 가능한 아이템을 생성하는 함수
     public void SpawnDropItem(ItemData itemData)
     {
-        GameObject cloneDropItem = Instantiate(_dropItem, transform.position, Quaternion.identity);
+        GameObject cloneDropItem = Instantiate(_dropItem, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
         cloneDropItem.GetComponent<DragBlock>().Setup(transform.position, itemData);
     }
 }

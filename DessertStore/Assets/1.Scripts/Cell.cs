@@ -8,19 +8,26 @@ public class Cell : MonoBehaviour
     [SerializeField] private int _xIndex;
     public int xIndex
     { get { return _xIndex; } }
+
     [SerializeField] private int _yIndex;
     public int yIndex
     { get { return _yIndex; } }
+
     [SerializeField] private bool _isActive;
+    public bool isActive
+    { get { return _isActive; } }
 
-    [SerializeField] private DragItem _occupyingItem; // 해당 셀을 차지하는 아이템 (없으면 null)
+    [SerializeField] private DragBlock _occupyingItem; // 해당 셀을 차지하는 아이템 (없으면 null)
 
-    private Image _cellImg; // Image 컴포넌트 추가
+    private SpriteRenderer _cellImg; // Image 컴포넌트 추가
+
+    // 포장 아이템이 차지했는지 여부
+    [SerializeField] private bool _isOccupiedByPackaging;
 
     private void Start()
     {
         // 셀의 Image 컴포넌트를 가져옵니다.
-        _cellImg = GetComponent<Image>();
+        _cellImg = GetComponent<SpriteRenderer>();
     }
 
     public void Initialize(GridManager manager, int x, int y)
@@ -35,22 +42,45 @@ public class Cell : MonoBehaviour
         return _occupyingItem != null;
     }
 
-    // 셀에 아이템 배치
-    public void SetItem(DragItem item)
+    public bool CanPlacePackaging()
     {
-        _occupyingItem = item;
-        _isActive = true;
+        // 포장 아이템이 차지하지 않는 경우에만 True 반환
+        return !_isOccupiedByPackaging;
+    }
 
-        // 셀이 차지된 상태이므로 색상 변경
-        if (_cellImg != null)
+    public void SetOccupyingItem(DragBlock item)
+    {
+       // _occupyingItem = item;
+        _isActive = item != null;
+
+        if (item != null && item.ItemData.itemType == 0) // 포장 아이템인 경우
         {
+            _isOccupiedByPackaging = true; // 포장 아이템이 차지함
+            _cellImg.color = Color.green; // 아이템이 배치되면 초록색 변경
+        }
+        else
+        {
+            _isOccupiedByPackaging = false; // 비포장 아이템은 차지하지 않음
             _cellImg.color = Color.yellow; // 아이템이 배치되면 노란색으로 변경
         }
+
+        
+    }
+
+    // 셀에 아이템 배치
+    public void SetItem(DragBlock item)
+    {
+        SetOccupyingItem(item);
     }
 
     // 셀에서 아이템 제거
     public void ClearItem()
     {
+        if (_occupyingItem != null && _occupyingItem.ItemData.itemType == 0) // 포장 아이템이 제거될 경우
+        {
+            _isOccupiedByPackaging = false; // 포장 아이템 점유 해제
+        }
+
         _occupyingItem = null;
         _isActive = false;
 
@@ -61,7 +91,7 @@ public class Cell : MonoBehaviour
         }
     }
 
-    public DragItem GetOccupyingItem()
+    public DragBlock GetOccupyingItem()
     {
         return _occupyingItem;
     }
@@ -75,7 +105,7 @@ public class Cell : MonoBehaviour
 
     private void PrintIndex()
     {
-        Debug.Log($"xIndex: {_xIndex}, zIndex: {_yIndex}");
+        Debug.Log($"xIndex: {_xIndex}, yIndex: {_yIndex}");
     }
 
     private void ChangeColor()
@@ -91,6 +121,11 @@ public class Cell : MonoBehaviour
 
     public void ChangeColor(Color color)
     {
-        _cellImg.color = color;   
+        _cellImg.color = color;
+    }
+
+    public bool HasPackagingItem()
+    {
+        return _isOccupiedByPackaging;
     }
 }

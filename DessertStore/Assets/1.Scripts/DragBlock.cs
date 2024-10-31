@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DragBlock : MonoBehaviour
@@ -10,21 +12,42 @@ public class DragBlock : MonoBehaviour
     private float _returnTime = 0.1f;  // 블록 원래 위치 돌아갈 때 소요 시간
 
     [SerializeField] private ItemData _itemData; //아이템 데이터
+    public ItemData ItemData // public 프로퍼티 추가
+    {
+        get { return _itemData; }
+    }
 
     private Vector2 _parentPosition;
 
+    private List<Cell> selectedCells = new List<Cell>(); // DropBlock 전용 선택된 셀 리스트
+
     [field: SerializeField] public Vector2Int BlockCount { private set; get; } // 블럭카운트
     private BoxCollider2D _collider;
+    private SpriteRenderer _spriteRenderer; // 스프라이트 렌더러 추가
 
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>(); // 스프라이트 렌더러 초기화
     }
 
     public void Setup(Vector3 parentPosition, ItemData itemData)
     {
         _parentPosition = parentPosition;
         _itemData = itemData;
+      
+        _collider = GetComponent<BoxCollider2D>();
+
+        // 아이템의 스프라이트를 설정
+        if (_spriteRenderer != null && _itemData != null)
+        {
+            _spriteRenderer.sprite = _itemData.itemImage; // 아이템 이미지로 설정
+        }
+
+
+        //Test
+        OnMouseDown();
+        OnMouseDrag();
     }
 
     private void OnMouseDown()
@@ -36,24 +59,41 @@ public class DragBlock : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        // 마우스의 z축 깊이 설정
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Camera.main.WorldToScreenPoint(transform.position).z;
         transform.position = Camera.main.ScreenToWorldPoint(mousePos);
 
-        GridManager.Instance.CheckCellOverlap(_collider, BlockCount.x, BlockCount.y);
+        bool isPackagingItem = _itemData.itemType == 0;
+
+        selectedCells = GridManager.Instance.CheckCellOverlap(_collider, _itemData.itemSize.x, _itemData.itemSize.y, isPackagingItem); // 업데이트된 리스트를 반환받음
     }
 
     private void OnMouseUp()
     {
-        float x = Mathf.RoundToInt(transform.position.x-BlockCount.x%2*0.5f)+BlockCount.x%2*0.5f;
-        float y = Mathf.RoundToInt(transform.position.y-BlockCount.y%2*0.5f)+BlockCount.y%2*0.5f;
-        transform.position = new Vector3(x, y, 0);
-        // 코루틴 호출 시 문자열이 아닌 메서드를 직접 호출
+        // 아이템이 차지할 셀 수 계산
+        int requiredCells = _itemData.itemSize.x * _itemData.itemSize.y;
+
+        // 선택된 셀이 필요한 셀 수보다 적으면 원래 위치로 복귀
+        if (selectedCells.Count < requiredCells)
+        {
+            StartCoroutine(OnMoveTo(_parentPosition, _returnTime)); // 부모 위치로 이동
+        }
+        else
+        {
+            // 충분한 셀이 선택된 경우, 가장 가까운 그리드 위치로 스냅
+            Vector2 closestGridPosition = GridManager.Instance.GetCellsCenterPosition(selectedCells);
+            transform.position = new Vector3(closestGridPosition.x, closestGridPosition.y, transform.position.z);
+
+            // 각 선택된 셀에 이 아이템을 배치했다고 표시
+            foreach (var cell in selectedCells)
+            {
+                cell.SetOccupyingItem(this);
+            }
+        }
+
+        // 크기 조절 애니메이션 초기화
         StopCoroutine(OnScaleTo(Vector3.one * 1.3f));
         StartCoroutine(OnScaleTo(Vector3.one));
-
-        //StartCoroutine(OnMoveTo(_parentPosition, _returnTime));
     }
 
     /// <summary>
@@ -74,6 +114,10 @@ public class DragBlock : MonoBehaviour
 
             yield return null;
         }
+
+        // 목표 위치에 도달하면 오브젝트 삭제
+        transform.position = end; // 최종 위치로 설정
+        Destroy(gameObject);
     }
 
     private IEnumerator OnScaleTo(Vector3 end)
