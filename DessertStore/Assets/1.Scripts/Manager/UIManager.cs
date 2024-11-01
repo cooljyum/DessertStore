@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -18,8 +19,8 @@ public class UIManager : MonoBehaviour
     public PopUpManager PopUpPanel => _popUpPanel;
     [SerializeField] private GameObject _storyPanel;
     public GameObject StoryPanel => _storyPanel;
-    [SerializeField] private GameObject _stagePanel;
-    public GameObject StagePanel => _stagePanel;
+    [SerializeField] private StageManager _stagePanel;
+    public StageManager StagePanel => _stagePanel;
 
     [Header("Start Panel")]
     private int _currentDayNumber = 1;
@@ -30,15 +31,12 @@ public class UIManager : MonoBehaviour
     public int SuccessCount => _successCount;
     private int _failureCount;
     public int FailureCount => _failureCount;
-    private int _starpoint;
-    public int Starpoint => _starpoint;
 
-    private float _dayTime = 60f;  //*****시간 임의로 둔거*****//
-    private float _remainingTime;
-    private bool _isDayActive = false;
-    private bool _allOrdersReady = true;
+    private float _dayTime = 60f;  //*****제한시간 임의로 둔거*****//
+    private float _remainingTime;           // 남은 시간
+    private bool _isDayActive = false;      // 게임 진행중인지
+    private bool _allOrdersReady = true;    // 주문서 내 아이템 모두 준비됐는지
     public bool AllOrdersReady => _allOrdersReady;
-
 
     private void Awake()
     {

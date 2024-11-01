@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6aa3643e830364f9d01edac75a448d, type: 3}
   m_Name: PieceOfCake_PumpkinCake_2-2
   m_EditorClassIdentifier: 
-  itemName: "\uC870\uAC01 \uB208\uC54C\uCF00\uC774\uD06C"
-  itemImage: {fileID: 21300000, guid: bf7c9a8545246e549b32217c0797be83, type: 3}
+  itemName: "\uC870\uAC01 \uD638\uBC15\uCF00\uC774\uD06C"
+  itemImage: {fileID: 21300000, guid: 245a7bffb4f552a4aa29098f3c06a757, type: 3}
   itemType: 4
   itemSize: {x: 2, y: 2}
   maxAmount: 2

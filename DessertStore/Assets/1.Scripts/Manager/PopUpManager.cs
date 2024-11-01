@@ -40,7 +40,7 @@ public class PopUpManager : MonoBehaviour
         _endPanel.SetActive(true);
 
         TextMeshProUGUI resultText = _endPanel.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        resultText.text = $"성공한 주문 {UIManager.Instance.SuccessCount}\n실패한 주문 {UIManager.Instance.FailureCount}\n오늘의 별점 {UIManager.Instance.Starpoint}";
+        resultText.text = $"성공한 주문 {UIManager.Instance.SuccessCount}\n실패한 주문 {UIManager.Instance.FailureCount}\n오늘의 별점 {UIManager.Instance.StagePanel.StarPointByStage[UIManager.Instance.CurrentDayNumber]}";
     }
 
     // 패널 모두 비활성화 //
