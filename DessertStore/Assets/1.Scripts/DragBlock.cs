@@ -31,6 +31,21 @@ public class DragBlock : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>(); // 스프라이트 렌더러 초기화
     }
 
+    private void Start()
+    {
+        MouseDown();
+    }
+
+    private void Update()
+    {
+        MouseDrag();
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            MouseUp();
+        }
+    }
+
     public void Setup(Vector3 parentPosition, ItemData itemData)
     {
         _parentPosition = parentPosition;
@@ -46,18 +61,18 @@ public class DragBlock : MonoBehaviour
 
 
         //Test
-        OnMouseDown();
-        OnMouseDrag();
+        //OnMouseDown();
+        //OnMouseDrag();
     }
 
-    private void OnMouseDown()
+    private void MouseDown()
     {
         // 코루틴 호출 시 문자열이 아닌 메서드를 직접 호출
         StopCoroutine(OnScaleTo(Vector3.one));
         StartCoroutine(OnScaleTo(Vector3.one * 1.3f));
     }
 
-    private void OnMouseDrag()
+    private void MouseDrag()
     {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Camera.main.WorldToScreenPoint(transform.position).z;
@@ -68,7 +83,7 @@ public class DragBlock : MonoBehaviour
         selectedCells = GridManager.Instance.CheckCellOverlap(_collider, _itemData.itemSize.x, _itemData.itemSize.y, _itemData.orderIndex); // 업데이트된 리스트를 반환받음
     }
 
-    private void OnMouseUp()
+    private void MouseUp()
     {
         // 아이템이 차지할 셀 수 계산
         int requiredCells = _itemData.itemSize.x * _itemData.itemSize.y;

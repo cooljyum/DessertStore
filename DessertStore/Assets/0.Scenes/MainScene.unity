@@ -3728,11 +3728,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de892a6b6d1338a40ab917814e75bbfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentLevel: {fileID: 11400000, guid: a6509d8f86d33f648b7e8d1c614d2b72, type: 2}
-  _orderPanel: {fileID: 6509330536017394053}
-  _orderItemPrefab: {fileID: 4731664585101574173, guid: 1eb9c4177cdfa054f8e14118d721111b, type: 3}
-  _readyButton: {fileID: 1448091015449427293}
-  _returnButton: {fileID: 7064322562507200204}
 --- !u!114 &4414389946464034407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5517,6 +5512,7 @@ GameObject:
   - component: {fileID: 5826450796386989004}
   - component: {fileID: 4647015767335792294}
   - component: {fileID: 7483304220943033110}
+  - component: {fileID: 7973994424457929958}
   m_Layer: 5
   m_Name: FaceImg
   m_TagString: Untagged
@@ -5524,6 +5520,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &7973994424457929958
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7973994424457929957}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9bd891c574cfc3a4cbb4ed32f0e67dbe, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9bd891c574cfc3a4cbb4ed32f0e67dbe, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!224 &8080720552389300503
 RectTransform:
   m_ObjectHideFlags: 0
