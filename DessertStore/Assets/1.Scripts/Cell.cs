@@ -76,10 +76,10 @@ public class Cell : MonoBehaviour
             }
         }
         _occupyingItems.Clear(); // 리스트 초기화
-        UpdateCellColor();
+        GridManager.Instance.CheckClearCells();
     }
 
-    private void UpdateCellColor()
+    public void UpdateCellColor()
     {
         if (_occupyingItems.Count > 0)
         {

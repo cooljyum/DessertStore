@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: PieceOfCake_EyeballCake_2-2
   m_EditorClassIdentifier: 
   itemName: "\uC870\uAC01 \uB208\uC54C\uCF00\uC774\uD06C"
-  itemImage: {fileID: 21300000, guid: bf7c9a8545246e549b32217c0797be83, type: 3}
+  itemImage: {fileID: 21300000, guid: c7e96798985c9d340a1acf3f67484322, type: 3}
   itemType: 4
-  itemSize: {x: 2, y: 2}
+  subType: 0
+  orderIndex: 0
   maxAmount: 2
+  itemSize: {x: 3, y: 3}

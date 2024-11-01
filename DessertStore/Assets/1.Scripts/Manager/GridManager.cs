@@ -74,6 +74,14 @@ public class GridManager : MonoBehaviour
         Debug.Log("모든 셀의 아이템이 제거되었습니다.");
     }
 
+    public void CheckClearCells() 
+    {
+        foreach (Cell cell in _cells)
+        {
+            cell.UpdateCellColor();
+        }
+    }
+
     // 선택된 셀들의 중심 위치를 계산하는 메서드
     public Vector2 GetCellsCenterPosition(List<Cell> selectedCells)
     {

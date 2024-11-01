@@ -13,6 +13,11 @@ public class MenuManager : MonoBehaviour
     private Dictionary<string, Button> _menuBtns = new Dictionary<string, Button>();
     private Dictionary<string, int> _selectedFoodCount = new Dictionary<string, int>();
 
+    //Bg
+    [SerializeField] private Image _bgImage; // Bg 객체의 Image 컴포넌트
+    [SerializeField] private List<Sprite> _bgSprites; // 카테고리별로 사용할 스프라이트 리스트
+
+
     private void Start()
     {
         // Resources의 모든 ItemData 로드
@@ -45,6 +50,12 @@ public class MenuManager : MonoBehaviour
     public void OnCategoryButtonClick(int categoryIndex)
     {
         LoadItemsByCategory(categoryIndex);
+
+        // _bgSprites의 유효성 검사 후 _bgImage 스프라이트 변경
+        if (_bgSprites != null && categoryIndex < _bgSprites.Count)
+        {
+            _bgImage.sprite = _bgSprites[categoryIndex]; // 선택된 카테고리에 맞는 스프라이트 설정
+        }
     }
 
     public void LoadItemsByCategory(int category)
@@ -64,7 +75,15 @@ public class MenuManager : MonoBehaviour
                 GameObject newButton = Instantiate(_menuBtnPrefab, _menuContent);
 
                 newButton.GetComponentInChildren<TextMeshProUGUI>().text = item.itemName;
-                newButton.GetComponentInChildren<Image>().sprite = item.itemImage;
+
+                Image secondImage = newButton.transform.GetChild(1).GetComponent<Image>();
+                secondImage.sprite = item.itemImage;
+
+                // 이미지 크기 확인 후 조정 (너비 또는 높이가 100보다 크면 줄이기)
+                if (secondImage.sprite.rect.width > 1000 || secondImage.sprite.rect.height > 1000)
+                {
+                    secondImage.rectTransform.sizeDelta = new Vector2(150, 150); // 조정된 크기
+                }
 
                 newButton.GetComponent<SpawnDragItem>().Setup(item);
 

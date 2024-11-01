@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: WholeCake_Cake_3-3
   m_EditorClassIdentifier: 
   itemName: "\uD640\uCF00\uC774\uD06C"
-  itemImage: {fileID: 21300000, guid: 2ff37ae6168a4204ea03074a56286d6b, type: 3}
+  itemImage: {fileID: 21300000, guid: 2a2ece4d45455244cbf351f9477c75e6, type: 3}
   itemType: 4
-  itemSize: {x: 3, y: 3}
+  subType: 0
+  orderIndex: 0
   maxAmount: 1
+  itemSize: {x: 4, y: 4}

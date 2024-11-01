@@ -25,6 +25,8 @@ public class DragBlock : MonoBehaviour
     private BoxCollider2D _collider;
     private SpriteRenderer _spriteRenderer; // 스프라이트 렌더러 추가
 
+    private bool _isMouseUp = false;
+
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
@@ -38,10 +40,11 @@ public class DragBlock : MonoBehaviour
 
     private void Update()
     {
-        MouseDrag();
+        if(!_isMouseUp) MouseDrag();
 
         if (Input.GetMouseButtonUp(0))
         {
+            _isMouseUp= true;
             MouseUp();
         }
     }
@@ -85,6 +88,7 @@ public class DragBlock : MonoBehaviour
 
     private void MouseUp()
     {
+
         // 아이템이 차지할 셀 수 계산
         int requiredCells = _itemData.itemSize.x * _itemData.itemSize.y;
 

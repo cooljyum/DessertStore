@@ -19,8 +19,9 @@ public class POSManager : MonoBehaviour
 
     private void Start()
     {
+        CreateNewOrder();
         _readyButton.onClick.AddListener(OnReadyButtonClicked);
-        _returnButton.onClick.AddListener(OnReturnButtonClicked);
+        //_returnButton.onClick.AddListener(OnReturnButtonClicked);
     }
 
     // 새로운 주문서 생성 // (버튼 클릭 호출)
