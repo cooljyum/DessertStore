@@ -127,27 +127,6 @@ public class POSManager : MonoBehaviour
 
         // 현재 셀의 아이템 목록 가져오기
 
-      
-        List<DragBlock> occupyingItems = order.GetMatchingCell().GetOccupyingItems();
-
-        // 주문에 필요한 레시피 데이터
-        RecipeData requiredRecipe = order.GetRecipeData();
-
-        // 필요한 레시피 데이터가 존재하는지 확인
-        if (occupyingItems.Count == 0)
-        {
-            Debug.Log("셀에 아이템이 없습니다.");
-            return false;
-        }
-
-        // 현재 셀의 아이템과 주문의 레시피가 일치하는지 확인
-        foreach (var item in occupyingItems)
-        {
-            if (item.ItemData.recipeData == requiredRecipe)
-            {
-                return true; // 주문과 일치하는 아이템이 존재
-            }
-        }
 
         Debug.Log("주문과 일치하는 아이템이 없습니다.");
         return false; // 일치하는 아이템이 없음
