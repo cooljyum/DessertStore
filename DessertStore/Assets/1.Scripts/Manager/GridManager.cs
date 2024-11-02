@@ -9,6 +9,10 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Vector2 _cellsSize = new Vector2(5, 5);     // 그리드 크기
 
     private Cell[,] _cells;                                             // 2차원 배열로 그리드 셀 관리
+    public Cell[,] cells 
+    {
+        get {return _cells;}
+    }
 
     private void Awake()
     {
@@ -74,11 +78,17 @@ public class GridManager : MonoBehaviour
         Debug.Log("모든 셀의 아이템이 제거되었습니다.");
     }
 
-    public void CheckClearCells() 
+    public void ClearCollidingCells(DragBlock targetItem)
     {
-        foreach (Cell cell in _cells)
+        foreach (Cell cell in _cells) // 모든 셀을 순회
         {
-            cell.UpdateCellColor();
+            if (!cell.IsOccupied()) continue;
+            
+            if (cell.GetOccupyingItems().Contains(targetItem)) // 특정 아이템과 충돌하는 셀이면
+            {
+                cell.ClearItems(true); // 해당 셀의 아이템 제거
+                cell.UpdateCellColor();
+            }
         }
     }
 
@@ -153,7 +163,7 @@ public class GridManager : MonoBehaviour
             for (int j = 0; j < width; j++)
             {
                 int cellX = startX + j; // 시작 X 좌표에 j를 더함
-                int cellY = startY - i; // 시작 Y 좌표에서 i를 뺌
+                int cellY = startY + i; // 시작 Y 좌표에서 i를 뺌
 
                 if (cellX >= 0 && cellX < _cells.GetLength(0) && cellY >= 0 && cellY < _cells.GetLength(1))
                 {

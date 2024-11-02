@@ -19,7 +19,11 @@ public class DragBlock : MonoBehaviour
 
     private Vector2 _parentPosition;
 
-    private List<Cell> selectedCells = new List<Cell>(); // DropBlock 전용 선택된 셀 리스트
+    private List<Cell> _selectedCells = new List<Cell>(); // DropBlock 전용 선택된 셀 리스트
+    public List<Cell> SelectedCells
+    {
+        get { return _selectedCells; }
+    }
 
     [field: SerializeField] public Vector2Int BlockCount { private set; get; } // 블럭카운트
     private BoxCollider2D _collider;
@@ -61,11 +65,6 @@ public class DragBlock : MonoBehaviour
         {
             _spriteRenderer.sprite = _itemData.itemImage; // 아이템 이미지로 설정
         }
-
-
-        //Test
-        //OnMouseDown();
-        //OnMouseDrag();
     }
 
     private void MouseDown()
@@ -83,7 +82,7 @@ public class DragBlock : MonoBehaviour
 
         bool isPackagingItem = _itemData.itemType == 0;
 
-        selectedCells = GridManager.Instance.CheckCellOverlap(_collider, _itemData.itemSize.x, _itemData.itemSize.y, _itemData.orderIndex); // 업데이트된 리스트를 반환받음
+        _selectedCells = GridManager.Instance.CheckCellOverlap(_collider, _itemData.itemSize.x, _itemData.itemSize.y, _itemData.orderIndex); // 업데이트된 리스트를 반환받음
     }
 
     private void MouseUp()
@@ -93,18 +92,18 @@ public class DragBlock : MonoBehaviour
         int requiredCells = _itemData.itemSize.x * _itemData.itemSize.y;
 
         // 선택된 셀이 필요한 셀 수보다 적으면 원래 위치로 복귀
-        if (selectedCells.Count < requiredCells)
+        if (_selectedCells.Count < requiredCells)
         {
             StartCoroutine(OnMoveTo(_parentPosition, _returnTime)); // 부모 위치로 이동
         }
         else
         {
             // 충분한 셀이 선택된 경우, 가장 가까운 그리드 위치로 스냅
-            Vector2 closestGridPosition = GridManager.Instance.GetCellsCenterPosition(selectedCells);
+            Vector2 closestGridPosition = GridManager.Instance.GetCellsCenterPosition(_selectedCells);
             transform.position = new Vector3(closestGridPosition.x, closestGridPosition.y, transform.position.z);
 
             // 각 선택된 셀에 이 아이템을 배치했다고 표시
-            foreach (var cell in selectedCells)
+            foreach (var cell in _selectedCells)
             {
                 cell.AddOccupyingItem(this);
             }

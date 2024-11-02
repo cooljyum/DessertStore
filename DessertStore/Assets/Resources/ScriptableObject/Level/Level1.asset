@@ -13,13 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelNumber: 1
-  availableMenu:
-  - {fileID: 11400000, guid: 9007e361fa2a66f4fa37833d72874137, type: 2}
-  - {fileID: 11400000, guid: 28ccd38f3e2b8f248aef811875eb518c, type: 2}
-  - {fileID: 11400000, guid: 32dc269a939105d41b8ec2f5a5421aa5, type: 2}
-  - {fileID: 11400000, guid: ca06224179ad77341a684eb963ed40a6, type: 2}
-  - {fileID: 11400000, guid: be0b8ffd46534a149add709a46b95cc8, type: 2}
-  - {fileID: 11400000, guid: 895f53ddeaec474498de81958a997954, type: 2}
-  - {fileID: 11400000, guid: c2b501e6ea1d8ef4181f6decf84a74af, type: 2}
-  - {fileID: 11400000, guid: bdeae698c3277b3419f1758436caca30, type: 2}
-  maxOrders: 2
+  maxMoney: 1000
+  puzzleDatas:
+  - {fileID: 11400000, guid: 5889dcc0efcf3084aa5bb2d1c6fe990c, type: 2}
+  - {fileID: 11400000, guid: 03b1ef22a4bf1b74789695599eb07c94, type: 2}

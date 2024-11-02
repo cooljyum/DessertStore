@@ -39,11 +39,7 @@ public class Cell : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (Input.GetMouseButtonDown(1)) // 오른쪽 마우스 버튼 클릭
-        {
-            Debug.Log("오른쪽 클릭이 감지되었습니다.");
-            ClearItems(); // 아이템 제거 메서드 호출
-        }
+
     }
 
     public void Initialize(GridManager manager, int x, int y)
@@ -64,9 +60,20 @@ public class Cell : MonoBehaviour
     {
         return _occupyingItems.Count > 0; // 리스트에 아이템이 있으면 occupied
     }
-
     // 셀의 아이템들을 파괴
-    public void ClearItems()
+    public void ClearItems(bool isCheck = false)
+    {
+        foreach (Cell cell in _occupyingItems[0].SelectedCells)
+        {
+            if (cell.IsOccupied()) // 셀이 아이템을 가지고 있는 경우에만
+            {
+                cell.ClearOccupyingItems(); // 셀의 아이템들을 파괴하는 메서드 호출
+            }
+        }
+
+        ClearOccupyingItems();
+    }
+    public void ClearOccupyingItems() 
     {
         foreach (var item in _occupyingItems)
         {
@@ -76,7 +83,10 @@ public class Cell : MonoBehaviour
             }
         }
         _occupyingItems.Clear(); // 리스트 초기화
-        GridManager.Instance.CheckClearCells();
+
+        UpdateCellColor();
+        Debug.Log("셀의 아이템이 제거되었습니다. 위치: (" + _xIndex + ", " + _yIndex + ")");
+
     }
 
     public void UpdateCellColor()

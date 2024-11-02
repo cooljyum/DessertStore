@@ -5,7 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Level Data", menuName = "Order System/Level Data")]
 public class LevelData : ScriptableObject
 {
-    public int levelNumber;          // 가게 레벨
-    public ItemData[] availableMenu; // 해당 라운드에서 주문 가능한 음식 목록
-    public int maxOrders;            // 해당 라운드에서 최대 주문 개수
+    [Header("Basic Info")]
+    public int levelNumber;             // 가게 레벨
+    public int maxMoney;                // 만점 기준 금액
+
+    [Header("PuzzleData")]
+    public PuzzleData[] puzzleDatas;    // 해당 라운드 퍼즐 목록
 }

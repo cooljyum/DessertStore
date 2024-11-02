@@ -14,7 +14,7 @@ public enum ItemType
 [CreateAssetMenu(fileName = "New Item", menuName = "Order System/Item Data")]
 public class ItemData : ScriptableObject
 {
-    [Header("Basic Item Information")]
+    [Header("Basic Item Infor")]
     public string itemName;         // 아이템의 이름
     public Sprite itemImage;        // 아이템의 이미지
 
@@ -22,7 +22,7 @@ public class ItemData : ScriptableObject
     public ItemType itemType;       // 아이템의 주 타입 (예: 포장, 음료 등)
     public int subType;             // 아이템의 서브 타입 (타입 구분을 위한 추가 정보)
 
-    [Header("Order Information")]
+    [Header("Order Infor")]
     public int orderIndex;          // 아이템의 놓을 수 있는 순서 (레시피에서의 위치)
     public int maxAmount;           // 주문 시 최대 개수
 

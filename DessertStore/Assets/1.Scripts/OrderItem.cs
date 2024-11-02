@@ -6,7 +6,7 @@ using TMPro;
 
 public class OrderItem : MonoBehaviour
 {
-    [SerializeField] private Image _itemImage;                 // 음식 이미지
+    [SerializeField] private List<Image> _itemImage;                 // 음식 이미지
     [SerializeField] private TextMeshProUGUI _itemNameText;    // 음식 이름 텍스트
     public TextMeshProUGUI ItemName => _itemNameText;
     [SerializeField] private TextMeshProUGUI _itemCountText;   // 음식 개수 텍스트
@@ -15,12 +15,25 @@ public class OrderItem : MonoBehaviour
     private int _remainingCount;                               // 남은 주문 개수
 
     // 주문 항목 초기화 //
-    public void SetupOrder(ItemData foodItem, int itemCount)
+    public void SetupOrder(RecipeData foodItem, int itemCount)
     {
-        _itemImage.sprite = foodItem.itemImage;                 // 음식 이미지 설정
-        _itemNameText.text = foodItem.itemName;                 // 음식 이름 설정
-        _itemCountText.text = "X " + itemCount.ToString();      // 음식 개수 설정
-        _remainingCount = itemCount;                            // 주문 초기 남은 개수 설정
+        // 이미지 설정 및 활성화
+        for (int i = 0; i < _itemImage.Count; i++)
+        {
+            if (i < foodItem.packagingComponents.Count)
+            {
+                _itemImage[i].sprite = foodItem.packagingComponents[i].itemImage; // 순서대로 이미지 할당
+                _itemImage[i].gameObject.SetActive(true);                        // 이미지 활성화
+            }
+            else
+            {
+                _itemImage[i].gameObject.SetActive(false);                       // 나머지 이미지 비활성화
+            }
+        }
+
+        _itemNameText.text = foodItem.packagingComponents[0].itemName;                 // 음식 이름 설정
+        _itemCountText.text = "X "+ itemCount;      // 음식 개수 설정
+        _remainingCount += itemCount;                            // 주문 초기 남은 개수 설정
     }
 
     // 주문 완료 처리 (POSManager에서 호출) //

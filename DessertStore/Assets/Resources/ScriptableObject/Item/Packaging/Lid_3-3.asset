@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6aa3643e830364f9d01edac75a448d, type: 3}
   m_Name: Lid_3-3
   m_EditorClassIdentifier: 
-  itemName: "\uB69C\uAED1 3*3"
-  itemImage: {fileID: 21300000, guid: 739bfb7a5d49d6544a3dd52e386f6a46, type: 3}
+  itemName: "\uC870\uAC01\uCF00\uC774\uD06C\uD3EC\uC7A5"
+  itemImage: {fileID: 21300000, guid: 38b8889c816ccf946aebd3c07a21112f, type: 3}
   itemType: 0
-  subType: 0
+  subType: 6
   orderIndex: 1
   maxAmount: 0
   itemSize: {x: 3, y: 3}
