@@ -4,6 +4,8 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
 
+    private float _currentStamina;                           // 현재 남은 체력
+
     private void Awake()
     {
         if (Instance == null)
@@ -45,5 +47,14 @@ public class ScoreManager : MonoBehaviour
     {
         _score = 0;
         _packagingCount = 0; // 포장 갯수도 초기화
+    }
+
+    private void UpdateCurStaminaGauge(float currentStamina)
+    {
+        _currentStamina = currentStamina;
+    }
+    public float GetCurStaminaGauge()
+    {
+        return _currentStamina;
     }
 }
