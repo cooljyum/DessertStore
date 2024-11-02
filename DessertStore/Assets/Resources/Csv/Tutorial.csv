@@ -1,17 +1,17 @@
-Index,Speaker,Dialoge,CatEmotion,WitchEmotion
-0,Witch,"Å°¸®, µåµð¾î ÀÎ°£°è¿¡ µðÀúÆ® Ä«Æä¸¦ ¿­°Ô µÇ¾ú¾î! ¿©±â¼­ ÃÖ°íÀÇ µðÀúÆ®°¡°Ô°¡ µÇ¾î¼­ ¸¹Àº »ç¶÷µé¿¡°Ô »ç¶û¹Þ°í¸»°Å¾ß!",Basic,Happy
-1,Cat,Å°¸®¸¸Å­ »ç¶û¹ÞÀ» ¼ö ÀÖÀ»°Å´Ù³É!,Happy,Basic
-2,Witch,±×·±µ¥ °¡°Ô°¡ »ý°¢º¸´Ù ¸¹ÀÌ ÀÛ³×.. Å×ÀÌºíµµ ÇÏ³ª ¸ø µÎ°Ú¾î. ¾î¶±ÇÏÁö?,Basic,Sad
-3,Cat,Èì¡¦ ±ÍÂúÁö¸¸ ±Í¿©¿î Å°¸®°¡ µµ¿ÍÁÙ°Ô! Æ÷ÀåÀ» ÀßÇØ¼­ Å°¸®ÇÑÅ× ÁÖ¸é Å°¸®°¡ ¹è´ÞÀ» ÇØÁÖÁö³É!,Happy,Sad
-4,Witch,Ã¹¹øÂ° ÁÖ¹®ÀÌ µé¾î¿Ô¾î! Æ÷½º±â¿¡ ¶á ¸Þ´º¸¦ Æ÷ÀåÇÏÀÚ! ±Ý¹æ ÇÒ°Ô ±â´Ù·Á Å°¸®!,Basic,Happy
-5,Cat,»¡¸® Æ÷ÀåÇÏ¶ó³É!,Basic,Basic
-6,Witch,ÀÌ·¸°Ô ¹èÄ¡ÇÏ¸é µÇ·Á³ª?,Basic,Basic
-7,Cat,±×·¸°Ô Æ÷ÀåÇÏ¸é ³»°¡ ¹è´ÞÇÏ±â Èûµé´Ù³É. Ä­¿¡ ¸ÂÃç¼­ ³Ö¾î¶ó³É!,Angry,Basic
-8,Witch,ÁÁ¾Æ! Æ÷Àå ¿Ï·á!,Basic,Happy
-9,Witch,"Å°¸®, ¹è´ÞÀ» ºÎÅ¹ÇØ!",Basic,Happy
-10,Cat,"°ÆÁ¤¸¶¶ó³É. ¾Ñ, ±Ùµ¥¡¦ »ý°¢ÇØº¸´Ï ³ª ±æÄ¡´Ù³É¡¦ ¾àµµ Á» ±×·ÁÁà¶ó³É¡¦",Basic,Basic
-11,Witch,"¸Â´Ù¡¦ Å°¸®¡¦ ³Ê ±æÄ¡¿´Áö. ¾Ë°Ú¾î, ±â´Ù·ÁºÁ ±Ý¹æ ±×·ÁÁÙ°Ô!",Basic,Basic
-12,Cat,ÇÑ¹ø¿¡ ´Ù³à¿Ã ¼ö ÀÖ°Ô ÇÑº×±×¸®±â·Î ±×·ÁÁà¶ó³É. Å°¸®´Â ºùºùµµ´Â °Å ½È´Ù³É.,Happy,Basic
-13,Witch,"ÀÚ, ¾àµµ¸¦ ±×·ÁÁáÀ¸´Ï Àß ´Ù³à¿Ã ¼ö ÀÖÁö?",Basic,Happy
-14,Cat,°ÆÁ¤¸¶¶ó³É. ´Ù³à¿À°Ú´Ù³É!,Happy,Happy
-15,Witch,"ÀÚ, ±×·³ ÀÌÁ¦ º»°ÝÀûÀ¸·Î Àå»ç¸¦ ½ÃÀÛÇØº¼±î?",Basic,Basic
+ï»¿Index,Speaker,Dialoge,CatEmotion,WitchEmotion
+0,Witch,"í‚¤ë¦¬, ë“œë””ì–´ ì¸ê°„ê³„ì— ë””ì €íŠ¸ ì¹´íŽ˜ë¥¼ ì—´ê²Œ ë˜ì—ˆì–´! ì—¬ê¸°ì„œ ìµœê³ ì˜ ë””ì €íŠ¸ê°€ê²Œê°€ ë˜ì–´ì„œ ë§Žì€ ì‚¬ëžŒë“¤ì—ê²Œ ì‚¬ëž‘ë°›ê³ ë§ê±°ì•¼!",Basic,Happy
+1,Cat,í‚¤ë¦¬ë§Œí¼ ì‚¬ëž‘ë°›ì„ ìˆ˜ ìžˆì„ê±°ë‹¤ëƒ¥!,Happy,Basic
+2,Witch,ê·¸ëŸ°ë° ê°€ê²Œê°€ ìƒê°ë³´ë‹¤ ë§Žì´ ìž‘ë„¤.. í…Œì´ë¸”ë„ í•˜ë‚˜ ëª» ë‘ê² ì–´. ì–´ë–¡í•˜ì§€?,Basic,Sad
+3,Cat,í â€¦ ê·€ì°®ì§€ë§Œ ê·€ì—¬ìš´ í‚¤ë¦¬ê°€ ë„ì™€ì¤„ê²Œ! í¬ìž¥ì„ ìž˜í•´ì„œ í‚¤ë¦¬í•œí…Œ ì£¼ë©´ í‚¤ë¦¬ê°€ ë°°ë‹¬ì„ í•´ì£¼ì§€ëƒ¥!,Happy,Sad
+4,Witch,ì²«ë²ˆì§¸ ì£¼ë¬¸ì´ ë“¤ì–´ì™”ì–´! í¬ìŠ¤ê¸°ì— ëœ¬ ë©”ë‰´ë¥¼ í¬ìž¥í•˜ìž! ê¸ˆë°© í• ê²Œ ê¸°ë‹¤ë ¤ í‚¤ë¦¬!,Basic,Happy
+5,Cat,ë¹¨ë¦¬ í¬ìž¥í•˜ë¼ëƒ¥!,Basic,Basic
+6,Witch,ì´ë ‡ê²Œ ë°°ì¹˜í•˜ë©´ ë˜ë ¤ë‚˜?,Basic,Basic
+7,Cat,ê·¸ë ‡ê²Œ í¬ìž¥í•˜ë©´ ë‚´ê°€ ë°°ë‹¬í•˜ê¸° íž˜ë“¤ë‹¤ëƒ¥. ì¹¸ì— ë§žì¶°ì„œ ë„£ì–´ë¼ëƒ¥!,Angry,Basic
+8,Witch,ì¢‹ì•„! í¬ìž¥ ì™„ë£Œ!,Basic,Happy
+9,Witch,"í‚¤ë¦¬, ë°°ë‹¬ì„ ë¶€íƒí•´!",Basic,Happy
+10,Cat,"ê±±ì •ë§ˆë¼ëƒ¥. ì•—, ê·¼ë°â€¦ ìƒê°í•´ë³´ë‹ˆ ë‚˜ ê¸¸ì¹˜ë‹¤ëƒ¥â€¦ ì•½ë„ ì¢€ ê·¸ë ¤ì¤˜ë¼ëƒ¥â€¦",Basic,Basic
+11,Witch,"ë§žë‹¤â€¦ í‚¤ë¦¬â€¦ ë„ˆ ê¸¸ì¹˜ì˜€ì§€. ì•Œê² ì–´, ê¸°ë‹¤ë ¤ë´ ê¸ˆë°© ê·¸ë ¤ì¤„ê²Œ!",Basic,Basic
+12,Cat,í•œë²ˆì— ë‹¤ë…€ì˜¬ ìˆ˜ ìžˆê²Œ í•œë¶“ê·¸ë¦¬ê¸°ë¡œ ê·¸ë ¤ì¤˜ë¼ëƒ¥. í‚¤ë¦¬ëŠ” ë¹™ë¹™ë„ëŠ” ê±° ì‹«ë‹¤ëƒ¥.,Happy,Basic
+13,Witch,"ìž, ì•½ë„ë¥¼ ê·¸ë ¤ì¤¬ìœ¼ë‹ˆ ìž˜ ë‹¤ë…€ì˜¬ ìˆ˜ ìžˆì§€?",Basic,Happy
+14,Cat,ê±±ì •ë§ˆë¼ëƒ¥. ë‹¤ë…€ì˜¤ê² ë‹¤ëƒ¥!,Happy,Happy
+15,Witch,"ìž, ê·¸ëŸ¼ ì´ì œ ë³¸ê²©ì ìœ¼ë¡œ ìž¥ì‚¬ë¥¼ ì‹œìž‘í•´ë³¼ê¹Œ?",Basic,Basic
