@@ -17,6 +17,7 @@ public class StoryManager : MonoBehaviour
 
     private int _currentIndex = 0;
     private Coroutine _wingCoroutine;
+    private Coroutine _typingCoroutine;
 
     private void Start()
     {
@@ -40,7 +41,12 @@ public class StoryManager : MonoBehaviour
 
         if (entry != null)
         {
-            _dialogueText.text = entry.Dialogue;
+            // 타이핑 효과를 위한 코루틴 시작
+            if (_typingCoroutine != null)
+            {
+                StopCoroutine(_typingCoroutine);
+            }
+            _typingCoroutine = StartCoroutine(TypeDialogue(entry.Dialogue));
 
             // 캐릭터별 표정 업데이트
             UpdateCharacterEmotion(entry.Speaker, entry.CatEmotion, entry.WitchEmotion);
@@ -52,9 +58,18 @@ public class StoryManager : MonoBehaviour
         }
     }
 
+    private IEnumerator TypeDialogue(string dialogue)
+    {
+        _dialogueText.text = "";
+        foreach (char letter in dialogue.ToCharArray())
+        {
+            _dialogueText.text += letter;
+            yield return new WaitForSeconds(0.05f); // 글자 간의 딜레이 (조정 가능)
+        }
+    }
+
     private void UpdateCharacterEmotion(string speaker, string catEmotion, string witchEmotion)
     {
-        // Cat의 표정과 날개 상태를 설정
         if (speaker == "Cat")
         {
             _catFace.sprite = GetEmotionSprite(speaker, catEmotion);
@@ -117,6 +132,12 @@ public class StoryManager : MonoBehaviour
         {
             StopCoroutine(_wingCoroutine);
             _wingCoroutine = null;
+        }
+
+        // 타이핑 효과 중지
+        if (_typingCoroutine != null)
+        {
+            StopCoroutine(_typingCoroutine);
         }
 
         SceneManager.LoadScene("MainScene");
