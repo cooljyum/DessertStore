@@ -22,6 +22,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private StageManager _stagePanel;
     public StageManager StagePanel => _stagePanel;
 
+    [SerializeField] private Slider _staminaBar;             // 체력바 UI
+    private float _currentStamina;                           // 현재 남은 체력
+    private float _maxStamina = 100f;                        // 최대 체력
+    private float _staminaCostPerCell = 5f;                  // 셀 하나 이동 시 소모되는 체력
+
     [Header("Start Panel")]
     private int _currentDayNumber = 1;
     public int CurrentDayNumber => _currentDayNumber;
@@ -68,6 +73,8 @@ public class UIManager : MonoBehaviour
                 Debug.Log($"Day {_currentDayNumber} 장사 끝!");
             }
         }
+
+        UpdateStaminaGauge();
     }
 
     // 하루 시작 //
@@ -140,5 +147,11 @@ public class UIManager : MonoBehaviour
         _currentDayNumber++;
         _successCount = _failureCount = 0;
         StartNewDay();
+    }
+
+    private void UpdateStaminaGauge()
+    {
+        //음.. 이거 합쳐야할수도
+        _staminaBar.value = ScoreManager.Instance.GetCurStaminaGauge();
     }
 }

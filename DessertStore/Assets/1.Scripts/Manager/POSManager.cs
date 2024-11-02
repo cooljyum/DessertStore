@@ -8,6 +8,8 @@ using System.Linq;
 public class POSManager : MonoBehaviour
 {
     [SerializeField] private LevelData _currentLevel;
+    public LevelData currentLevel { get { return _currentLevel; } }
+
     [SerializeField] private GameObject _orderPanel;
     [SerializeField] private GameObject _orderItemPrefab;
     [SerializeField] private Button _readyButton;
@@ -182,8 +184,6 @@ public class POSManager : MonoBehaviour
             _orderRecipeData.Clear();
         }
     }
-
-
 
 
     private bool CheckOrderItemList() 
