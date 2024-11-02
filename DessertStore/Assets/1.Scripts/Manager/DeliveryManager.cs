@@ -10,7 +10,6 @@ public class DeliveryManager : MonoBehaviour
 {
     [SerializeField] private Transform _gridTransform;       // 맵 그리드 오브젝트
     [SerializeField] private Slider _staminaBar;             // 체력바 UI
-    [SerializeField] private Button _eraseButton;            // 길 지우기 버튼
     [SerializeField] private Button _packageButton;          // 포장가기 버튼
     [SerializeField] private TextMeshProUGUI _catMessage;    // 키리 말 TMP
     [SerializeField] private List<MessageData> deliveryTextDataList; // 상황별 메시지
@@ -28,7 +27,6 @@ public class DeliveryManager : MonoBehaviour
 
     private void Start()
     {
-        _eraseButton.onClick.AddListener(OnEraseButtonClicked);
         _packageButton.onClick.AddListener(OnPackageButtonClicked);
 
         if (MapGrid != null)
@@ -220,11 +218,6 @@ public class DeliveryManager : MonoBehaviour
     private void LogStatus()
     {
         Debug.Log($"현재 체력: {_currentStamina}");
-    }
-
-    public void OnEraseButtonClicked()
-    {
-        ResetPath();
     }
 
     public void OnPackageButtonClicked()
