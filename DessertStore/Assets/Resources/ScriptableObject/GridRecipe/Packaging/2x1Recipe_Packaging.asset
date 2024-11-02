@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a82627b1a95f32a41836d6b5bb908f69, type: 3}
-  m_Name: Straw_Recipe
+  m_Script: {fileID: 11500000, guid: 48321bc926e831f42b451a902af80f68, type: 3}
+  m_Name: 2x1Recipe_Packaging
   m_EditorClassIdentifier: 
-  recipeName: "\uBE68\uB300"
-  packagingComponents:
-  - {fileID: 11400000, guid: 2047152b79b36414398a75882e39f007, type: 2}
-  additionalItem: {fileID: 0}
+  recipeSize: {x: 2, y: 1}
+  recipeDatas:
+  - {fileID: 11400000, guid: 4f8bc1ba6cbb2be4e84400ecd73e4dd9, type: 2}

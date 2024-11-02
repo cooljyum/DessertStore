@@ -111,14 +111,14 @@ public class Cell : MonoBehaviour
 
     public void UpdateCellColor()
     {
-        if (_occupyingItems.Count > 0)
+/*        if (_occupyingItems.Count > 0)
         {
             _cellImg.color = Color.green; // 아이템이 있을 때 초록색으로 변경
         }
         else
         {
             _cellImg.color = Color.white; // 비어 있으면 흰색으로 변경
-        }
+        }*/
     }
 
     public List<DragBlock> GetOccupyingItems()

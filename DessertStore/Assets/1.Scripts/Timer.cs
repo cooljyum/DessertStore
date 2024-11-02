@@ -1,74 +1,50 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private Text _timerTxt;  // 타이머text
-    [SerializeField] private GameObject _panel;  // 타이머가 끝났을 때 표시할 패널
-    [SerializeField] private bool _timerIsRunning = false; //타이머 bool
+    public Text timeText;       // 시간 텍스트를 표시할 UI Text 컴포넌트
+    public Image timeImage;     // 해/달 이미지를 변경할 이미지
+    public Sprite sunSprite;    // 해 이미지
+    public Sprite moonSprite;   // 달 이미지
 
-    private float _timeRemaining = 60f;
-    public float TimeRemaining => _timeRemaining;
-   // private float timeRemaining = 300f; // 5분 = 300초
+    private float currentTime = 8f; // 시작 시간을 9시로 설정
+    private float timeSpeed = 2.5f; // 2.5초당 1시간 추가
 
-    public bool TimerIsRunning
+    void Start()
     {
-        get { return _timerIsRunning; }
+        InvokeRepeating("UpdateTime", 0f, timeSpeed);
     }
 
-    public Action OnTimerStart { get; internal set; }
-
-    private void Start()
+    void UpdateTime()
     {
-        // 타이머 시작
-        _timerIsRunning = true;
-    }
+        currentTime += 1f;
 
-    private void Update()
-    {
-        if (_timerIsRunning)
+        // 시간 텍스트 형식으로 변환
+        int hours = (int)currentTime;
+        string hourString = hours < 10 ? "0" + hours : hours.ToString();
+        string timeString = hourString + ":00";
+        timeText.text = timeString;
+
+        // 시간에 따라 이미지 변경
+        if (currentTime < 14f)
         {
-            if (_timeRemaining > 0)
-            {
-                // 타이머 감소
-                _timeRemaining -= Time.deltaTime;
-                DisplayTime(_timeRemaining);
-            }
-            else
-            {
-                // 타이머 종료 시
-                Debug.Log("타이머 끝");
-                _timeRemaining = 0;
-                _timerIsRunning = false;
-
-                // 타이머가 끝나면 패널 표시
-                if (_panel != null)
-                {
-                    _panel.SetActive(true); // 패널 활성화
-                }
-                else
-                {
-                    Debug.LogError("패널이 null입니다!");
-                }
-            }
+            timeImage.sprite = sunSprite;
         }
-    }
-
-    // 남은 시간 표시
-    private void DisplayTime(float timeToDisplay)
-    {
-        timeToDisplay += 1; // 시간 반올림
-
-        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
-        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
-
-        // UI 텍스트 업데이트
-        if (_timerTxt != null)
+        else
         {
-            _timerTxt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            timeImage.sprite = moonSprite;
+        }
+
+        // 현재 시간을 디버그로 표시
+        Debug.Log("현재 시간: " + timeString);
+
+        // 오후 6시(18시) 이후 게임 종료
+        if (currentTime >= 18f)
+        {
+            Debug.Log("게임 종료");
+            GameManager.Instance.EndGame();
+            CancelInvoke("UpdateTime");
         }
     }
 }

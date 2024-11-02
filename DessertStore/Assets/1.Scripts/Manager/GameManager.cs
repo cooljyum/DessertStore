@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private ScoreManager _scoreManager;
-    private HeartManager _heartManager;
+    public bool IsGamePlay = false;
+
+    [SerializeField] private ScoreManager _scoreManager;
+    [SerializeField] private HeartManager _heartManager;
 
     [SerializeField] private WitchManager _witchManager; 
     [SerializeField] private CatManager _catManager; 
@@ -27,6 +29,8 @@ public class GameManager : MonoBehaviour
         _scoreManager = GetComponent<ScoreManager>();
         _heartManager = GetComponent<HeartManager>();
 
+        IsGamePlay = true;
+
         // 마녀의 액션을 무작위 간격으로 실행하는 코루틴 시작
         StartCoroutine(WitchActionRoutine());
     }
@@ -35,12 +39,12 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         _scoreManager.AddScore(amount);
-        _heartManager.UpdateHearts(_scoreManager.CurrentScore);
+        _heartManager.OnOrderSuccess();
     }
 
     // 현재 점수와 하트 수 반환
     public int GetCurrentScore() => _scoreManager.CurrentScore;
-    public int GetCurrentHearts() => _heartManager.CurrentHearts;
+    public int GetCurrentHearts() => _heartManager.CalculateHearts();
 
     // 스테이지 시작 시 초기화
     public void ResetStage()
@@ -77,4 +81,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void EndGame() 
+    {
+        Debug.Log("게임 끝");
+        IsGamePlay= false;
+
+        //HeartManager 종료
+         int hearts = HeartManager.Instance.CalculateHearts();
+        Debug.Log("게임 종료. 얻은 하트: " + hearts + "개");
+    }
 }

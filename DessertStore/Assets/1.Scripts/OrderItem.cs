@@ -25,6 +25,8 @@ public class OrderItem : MonoBehaviour
                 _itemImage[i].sprite = foodItem.packagingComponents[i].itemImage; // 순서대로 이미지 할당
                 _itemImage[i].gameObject.SetActive(true);                        // 이미지 활성화
 
+                _itemNameText.text = foodItem.recipeName; // 초기 음식 이름 설정
+
                 if (foodItem.packagingComponents[i].itemType > 0)
                 {
                     _itemNameText.text = foodItem.packagingComponents[i].itemName; // 음식 이름 설정

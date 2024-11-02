@@ -38,7 +38,7 @@ public class GridManager : MonoBehaviour
     private void InitializeGrid()
     {
         _cells = new Cell[(int)_cellsSize.x, (int)_cellsSize.y];          // _grid 배열 초기화
-        Vector2 cellHalf = new Vector2(0.5f, 0.5f);                     // 셀 크기
+        Vector2 cellHalf = new Vector2(0.5f, 0.5f);                       // 셀 크기
         Vector2 cellOffset = new Vector2(.38f, -0.1f);
         for (int y = 0; y < _cellsSize.y; ++y)
         {
@@ -66,7 +66,7 @@ public class GridManager : MonoBehaviour
     private void CreateCell(Vector3 position, int x, int y)
     {
         // 오프셋 추가
-        Vector3 cellPosition = position + new Vector3(.11f, -0.26f, 0f);
+        Vector3 cellPosition = position + new Vector3(.36f, -0.26f, 0f);
 
         GameObject clone = Instantiate(_cellPrefab, cellPosition, Quaternion.identity, transform);
         Cell cellScript = clone.GetComponent<Cell>();
@@ -137,8 +137,6 @@ public class GridManager : MonoBehaviour
 
         foreach (Cell cell in _cells)
         {
-            cell.ChangeColor(Color.white); // 초기 색상 설정
-
             BoxCollider2D cellCollider = cell.GetComponent<BoxCollider2D>();
             float overlapArea = GetOverlapArea(itemCollider.bounds, cellCollider.bounds, out float overlapWidth, out float overlapHeight);
 
@@ -182,6 +180,7 @@ public class GridManager : MonoBehaviour
         int startY = 0;
 
         // 아이템 크기에 따라 시작 좌표 계산
+        //  x : + -> 오른 /- -> 왼 //y : + -> 아래 /- -> 위 
         switch (width)
         {
             case 1: // 1x1, 1x2, 1x3
@@ -192,6 +191,12 @@ public class GridManager : MonoBehaviour
                 {
                     startY += 1;
                 }
+
+                if (y == 4 && height >= 2)
+                {
+                    startY -= 1;
+                }
+
                 break;
 
             case 2: // 2x1, 2x2
@@ -203,9 +208,9 @@ public class GridManager : MonoBehaviour
                     startX += 1;
                 }
 
-                if (y == 0 && height > 1)
+                if (y == 4 && height > 1)
                 {
-                    startY += 1;
+                    startY -= 1;
                 }
 
                 break;
@@ -213,14 +218,20 @@ public class GridManager : MonoBehaviour
             case 3: // 3x1, 3x3
                 startX = x - 1; // 3칸일 때 왼쪽으로 1칸 이동
                 startY = y + (height == 1 ? 0 : (height == 2 ? 1 : 2)); // 높이에 맞게 위쪽으로 이동
+                
                 if (x == 0)
                 {
-                    startX += 2;
+                    startX += 1;
                 }
 
-                if (y == 0 && height > 1)
+                if (x == 4)
                 {
-                    startY += 2;
+                    startX -= 1;
+                }
+
+                if (y >= 3 && height > 1)
+                {
+                    startY -= (y-2);
                 }
                 break;
 
@@ -232,10 +243,24 @@ public class GridManager : MonoBehaviour
                 {
                     startX += 2;
                 }
-
-                if (y == 0 && height > 1)
+                if (x == 1)
                 {
-                    startY += 2;
+                    startX += 1;
+                }
+
+                if (x == 4)
+                {
+                    startX -= 1;
+                }
+
+                if (y == 0)
+                {
+                    startY += 1;
+                }
+
+                if (y >= 3 && height > 1)
+                {
+                    startY -= (y - 2);
                 }
 
                 break;
@@ -260,10 +285,8 @@ public class GridManager : MonoBehaviour
 
                     if (itemOrderIndex > 0)
                     {
-                        cell.ChangeColor(Color.blue);
                         if (!selectedCells.Contains(cell) && cell.IsOccupied() && itemOrderIndex > cell.GetLastOccupyingItemOrderIndex())
                         {
-                            cell.ChangeColor(Color.cyan);
                             selectedCells.Add(cell);
                         }
                     }
@@ -272,7 +295,6 @@ public class GridManager : MonoBehaviour
                         // 셀에 이미 포장 아이템이 있는지 확인
                         if (!selectedCells.Contains(cell) && !cell.IsOccupied())
                         {
-                            cell.ChangeColor(Color.blue);
                             selectedCells.Add(cell);
                         }
                     }

@@ -17,3 +17,6 @@ MonoBehaviour:
   puzzleDatas:
   - {fileID: 11400000, guid: 5889dcc0efcf3084aa5bb2d1c6fe990c, type: 2}
   - {fileID: 11400000, guid: 03b1ef22a4bf1b74789695599eb07c94, type: 2}
+  - {fileID: 11400000, guid: 0489e6be785c3bd4a89b5c0d5839618a, type: 2}
+  - {fileID: 11400000, guid: 9b7d661bcd6222e489f271e5a1cb0ba2, type: 2}
+  - {fileID: 11400000, guid: 61e75327e07f9d648bc6048a7d41af93, type: 2}

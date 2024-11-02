@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b6aa3643e830364f9d01edac75a448d, type: 3}
-  m_Name: Straw_3-1
+  m_Name: Straw_1-3
   m_EditorClassIdentifier: 
-  itemName: "\uBE68\uB300(\uAC00\uB85C)"
-  itemImage: {fileID: 21300000, guid: eed50f5836032b442968eff6923de2b5, type: 3}
+  itemName: "\uBE68\uB300(\uC138\uB85C)"
+  itemImage: {fileID: 21300000, guid: 825127be42018284d950c204976f1c42, type: 3}
   itemType: 0
-  subType: 13
+  subType: 12
   orderIndex: 0
   maxAmount: 0
-  itemSize: {x: 3, y: 1}
+  itemSize: {x: 1, y: 3}

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20d7c6206a8f7374db5e6ef45db6e8e4, type: 3}
-  m_Name: PuzzleData_level1_2
+  m_Name: PuzzleData_level1_4
   m_EditorClassIdentifier: 
   gridRecipeDatas:
   - gridRecipeCount: 1
-    gridRecipeData: {fileID: 11400000, guid: 7e4de48d104242744813c2c63dde1483, type: 2}
+    gridRecipeData: {fileID: 11400000, guid: 1299de9fffe069140b04ed602502c665, type: 2}
   - gridRecipeCount: 2
-    gridRecipeData: {fileID: 11400000, guid: 4b0be53f69375cb489b38d2cb4730b8a, type: 2}
-  - gridRecipeCount: 2
+    gridRecipeData: {fileID: 11400000, guid: 0d7c2aa79e96be440ad0ab6b714cd986, type: 2}
+  - gridRecipeCount: 1
     gridRecipeData: {fileID: 11400000, guid: 0d7c2aa79e96be440ad0ab6b714cd986, type: 2}

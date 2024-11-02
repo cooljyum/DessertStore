@@ -43,6 +43,9 @@ public class UIManager : MonoBehaviour
     private bool _allOrdersReady = true;    // 주문서 내 아이템 모두 준비됐는지
     public bool AllOrdersReady => _allOrdersReady;
 
+    [SerializeField]public ScrollRect _menuScrollRect; //메뉴의 스크롤랙트 
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -154,4 +157,13 @@ public class UIManager : MonoBehaviour
         //음.. 이거 합쳐야할수도
         _staminaBar.value = ScoreManager.Instance.GetCurStaminaGauge();
     }
+
+    public void SetScrollEnabled(bool isEnabled)
+    {
+        if (_menuScrollRect != null)
+        {
+            _menuScrollRect.enabled = isEnabled;
+        }
+    }
+
 }

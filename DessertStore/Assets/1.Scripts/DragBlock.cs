@@ -66,11 +66,14 @@ public class DragBlock : MonoBehaviour
         if (_spriteRenderer != null && _itemData != null)
         {
             _spriteRenderer.sprite = _itemData.itemImage; // 아이템 이미지로 설정
+            _spriteRenderer.sortingOrder = _itemData.orderIndex+1; // 인덱스를 기반으로 정렬 순서 설정
         }
     }
 
     private void MouseDown()
     {
+        UIManager.Instance.SetScrollEnabled(false);
+
         // 코루틴 호출 시 문자열이 아닌 메서드를 직접 호출
         StopCoroutine(OnScaleTo(Vector3.one));
         StartCoroutine(OnScaleTo(Vector3.one * 1.3f));
@@ -89,6 +92,8 @@ public class DragBlock : MonoBehaviour
 
     private void MouseUp()
     {
+        UIManager.Instance.SetScrollEnabled(true);
+
         // 아이템이 차지할 셀 수 계산
         int requiredCells = _itemData.itemSize.x * _itemData.itemSize.y;
 

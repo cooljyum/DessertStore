@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a82627b1a95f32a41836d6b5bb908f69, type: 3}
-  m_Name: Fork_Recipe
+  m_Name: Straw_Recipe_3-1
   m_EditorClassIdentifier: 
-  recipeName: "\uD3EC\uD06C"
+  recipeName: "\uBE68\uB300(\uAC00\uB85C)"
   packagingComponents:
-  - {fileID: 11400000, guid: 60ade2e3a6bf30c40b2294c7615a3192, type: 2}
+  - {fileID: 11400000, guid: 2047152b79b36414398a75882e39f007, type: 2}
   additionalItem: {fileID: 0}

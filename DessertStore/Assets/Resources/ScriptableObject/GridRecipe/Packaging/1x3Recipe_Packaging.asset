@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48321bc926e831f42b451a902af80f68, type: 3}
-  m_Name: 1x1Recipe_Packaging
+  m_Name: 1x3Recipe_Packaging
   m_EditorClassIdentifier: 
-  recipeSize: {x: 1, y: 1}
+  recipeSize: {x: 1, y: 3}
   recipeDatas:
   - {fileID: 11400000, guid: 69d3240ec813421428a6a23b96097127, type: 2}
-  - {fileID: 11400000, guid: faa9a0b4d1275764f8b8da98dcab03e3, type: 2}

@@ -58,7 +58,7 @@ public class CharacterManager : MonoBehaviour
                 // 놀람에 따른 추가 효과 (예: 점프 애니메이션) 구현 가능
                 break;
             default:
-                Debug.Log("기본 상태입니다.");
+               // Debug.Log("기본 상태입니다.");
                 break;
         }
     }

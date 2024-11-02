@@ -17,3 +17,5 @@ MonoBehaviour:
     gridRecipeData: {fileID: 11400000, guid: bbea5547ed81f0c498b2d584a894aa7d, type: 2}
   - gridRecipeCount: 3
     gridRecipeData: {fileID: 11400000, guid: ec2c86496a40b7a4babcbe95713d8160, type: 2}
+  - gridRecipeCount: 2
+    gridRecipeData: {fileID: 11400000, guid: 0d7c2aa79e96be440ad0ab6b714cd986, type: 2}
