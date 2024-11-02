@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-
+using System.Linq;
 
 public class POSManager : MonoBehaviour
 {
@@ -35,6 +35,7 @@ public class POSManager : MonoBehaviour
         }
         _activeOrders.Clear();
         _usedFoodItems.Clear();
+        _orderRecipeData.Clear();
 
         // 무작위 PuzzleData 선택
         PuzzleData randomPuzzleData;
@@ -83,8 +84,6 @@ public class POSManager : MonoBehaviour
             orderItem.SetupOrder(recipe, itemCount); // 중복된 경우 itemCount가 증가된 값으로 전달
             _activeOrders.Add(orderItem);
         }
-
-        SetReadyButtonInteractable(false);
     }
 
     // 레디 버튼 클릭 가능/불가능 설정 //
@@ -95,42 +94,103 @@ public class POSManager : MonoBehaviour
 
     public void OnReadyButtonClicked()
     {
-        bool allOrdersMatched = true;
-
-        foreach (var order in _activeOrders)
-        {
-            bool isOrderMatched = CheckOrder(order); // 주문 항목 체크
-            if (isOrderMatched)
-            {
-             //   _score += 1; // 주문이 일치하면 점수 추가
-                Debug.Log("점수 +1, 현재 점수: " );
-            }
-            else
-            {
-                allOrdersMatched = false; // 하나라도 불일치하면 false로 설정
-            }
-        }
-
-        if (allOrdersMatched)
+        CheckOrder(); // 주문 항목 체크
+        bool isOrderMatched = CheckOrderItemList(); // 주문 항목 체크
+        if (isOrderMatched)
         {
             Debug.Log("모든 주문이 일치합니다!");
+            Debug.Log("점수 +1, 현재 점수: " );
+            ScoreManager.Instance.AddPackagingCount(1);
+        }
+        else
+        {
+            Debug.Log("아이템 불일치");
         }
 
-        UIManager.Instance.MenuPanel.ResetSelection();
-        UIManager.Instance.SetOrderStatus(UIManager.Instance.AllOrdersReady);
+        CreateNewOrder();
+
+        GridManager.Instance.ClearAllItems();
     }
 
-    private bool CheckOrder(OrderItem order)
+    private void CheckOrder()
     {
-        // 각 주문 항목에 대해 필요한 아이템의 레시피 데이터를 확인합니다.
-        // order.RecipeData는 주문 항목의 레시피 데이터입니다.
-
         // 현재 셀의 아이템 목록 가져오기
+        List<ItemData>[] cellItemData = GridManager.Instance.GetCellItemData();
+        List<RecipeData> _orderRecipeDataRemove = new List<RecipeData>();
 
+        // 주문의 레시피 데이터 확인
+        foreach (var recipe in _orderRecipeData)
+        {
+            // 레시피의 포장 구성 요소를 가져옴
+            List<ItemData> packagingComponents = recipe.packagingComponents;
 
-        Debug.Log("주문과 일치하는 아이템이 없습니다.");
-        return false; // 일치하는 아이템이 없음
+            // 모든 아이템이 발견되었는지를 체크하는 변수
+            bool allItemsFound = true;
+
+            // 제거할 아이템을 저장할 리스트
+            List<ItemData> itemsToRemove = new List<ItemData>();
+
+            // 포장 구성 요소를 확인하여 GridManager의 아이템과 비교
+            foreach (ItemData requiredItem in packagingComponents)
+            {
+                bool found = false; // 아이템 발견 여부 체크
+
+                // 이중 배열을 순회하면서 아이템 찾기
+                for (int x = 0; x < cellItemData.GetLength(0); x++)
+                {
+                    if (cellItemData[x].Contains(requiredItem))
+                    {
+                        found = true; // 아이템 발견
+
+                        // 해당 아이템 제거
+                        cellItemData[x].Remove(requiredItem);
+                        Debug.Log($"아이템 {requiredItem}이(가) 그리드에서 제거되었습니다.");
+
+                        // 제거할 아이템 리스트에 추가
+                        itemsToRemove.Add(requiredItem);
+                        break; // 아이템을 찾았으므로 더 이상 체크할 필요 없음
+                    }
+                    
+                    if (found) break; // 이미 아이템을 찾았다면 더 이상 확인할 필요 없음
+                }
+
+                // 아이템이 발견되지 않았다면
+                if (!found)
+                {
+                    allItemsFound = false; // 모든 아이템이 발견되지 않음
+                    Debug.Log($"아이템 {requiredItem}이(가) 그리드에서 발견되지 않았습니다.");
+                    break; // 더 이상 확인할 필요 없음
+                }
+            }
+
+            // 모든 아이템이 발견되었다면 레시피에서 제거
+            if (allItemsFound)
+            {
+                _orderRecipeDataRemove.Add(recipe);
+            }
+        }
+
+        // 발견된 모든 레시피 데이터 제거
+        foreach (var recipe in _orderRecipeDataRemove)
+        {
+            _orderRecipeData.Remove(recipe);
+        }
+
+        // 모든 레시피가 제거되었는지 확인
+        if (_orderRecipeDataRemove.Count == _orderRecipeData.Count)
+        {
+            _orderRecipeData.Clear();
+        }
     }
+
+
+
+
+    private bool CheckOrderItemList() 
+    {
+        return _orderRecipeData.Count <= 0; // 리스트에 아이템이 있으면 occupied
+    }
+
 
     public List<OrderItem> GetActiveOrders()
     {

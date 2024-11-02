@@ -15,5 +15,5 @@ MonoBehaviour:
   recipeName: "\uC870\uAC01 \uCE58\uC988\uCF00\uC774\uD06C"
   packagingComponents:
   - {fileID: 11400000, guid: 8854382dc1b1b444fa60dc93e894863b, type: 2}
-  - {fileID: 11400000, guid: 11ac163fcc1627c41adcb21e8defa414, type: 2}
+  - {fileID: 11400000, guid: e03d4a1a61964204fb19c09b5ca78ffa, type: 2}
   additionalItem: {fileID: 0}

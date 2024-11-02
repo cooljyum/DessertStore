@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI; // UI 네임스페이스 추가
 
@@ -37,9 +38,20 @@ public class Cell : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public List<ItemData> GetItemDataList() 
     {
+        List<ItemData> itemDatas = new List<ItemData>();
 
+        DragBlock data = new DragBlock();
+        foreach (var item in _occupyingItems)
+        {
+            itemDatas.Add(item.ItemData);
+            if (item.ItemData.itemType > 0) data = item;
+        }
+
+        GridManager.Instance.ClearCollidingCells(data);
+
+        return itemDatas;
     }
 
     public void Initialize(GridManager manager, int x, int y)

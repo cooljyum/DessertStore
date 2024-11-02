@@ -24,6 +24,11 @@ public class OrderItem : MonoBehaviour
             {
                 _itemImage[i].sprite = foodItem.packagingComponents[i].itemImage; // 순서대로 이미지 할당
                 _itemImage[i].gameObject.SetActive(true);                        // 이미지 활성화
+
+                if (foodItem.packagingComponents[i].itemType > 0)
+                {
+                    _itemNameText.text = foodItem.packagingComponents[i].itemName; // 음식 이름 설정
+                }
             }
             else
             {
@@ -31,9 +36,8 @@ public class OrderItem : MonoBehaviour
             }
         }
 
-        _itemNameText.text = foodItem.packagingComponents[0].itemName;                 // 음식 이름 설정
-        _itemCountText.text = "X "+ itemCount;      // 음식 개수 설정
-        _remainingCount += itemCount;                            // 주문 초기 남은 개수 설정
+        _itemCountText.text = "X " + itemCount;      // 음식 개수 설정
+        _remainingCount += itemCount;
     }
 
     // 주문 완료 처리 (POSManager에서 호출) //

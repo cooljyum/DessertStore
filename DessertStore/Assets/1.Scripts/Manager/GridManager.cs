@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -16,7 +17,7 @@ public class GridManager : MonoBehaviour
     }
 
     // 이중 리스트로 아이템 데이터 저장
-    private List<ItemData>[,] _itemDataArray;
+    private List<ItemData>[] _itemDataArray;
 
     private void Awake()
     {
@@ -37,7 +38,6 @@ public class GridManager : MonoBehaviour
     private void InitializeGrid()
     {
         _cells = new Cell[(int)_cellsSize.x, (int)_cellsSize.y];          // _grid 배열 초기화
-        _itemDataArray = new List<ItemData>[(int)_cellsSize.x, (int)_cellsSize.y]; // 이중 리스트 초기화
         Vector2 cellHalf = new Vector2(0.5f, 0.5f);                     // 셀 크기
         Vector2 cellOffset = new Vector2(.38f, -0.1f);
         for (int y = 0; y < _cellsSize.y; ++y)
@@ -47,8 +47,18 @@ public class GridManager : MonoBehaviour
                 Vector3 position = new Vector3(-_cellsSize.x * 0.5f + cellHalf.x + x + cellOffset.x,
                                                 _cellsSize.y * 0.5f + cellHalf.y - y + cellOffset.y, 0);
                 CreateCell(position, x, y);
-                _itemDataArray[x, y] = new List<ItemData>(); // 각 셀의 아이템 데이터 리스트 초기화
             }
+        }
+    }
+
+    // 단일 리스트 배열 초기화
+    private void InitializeItemDataArray()
+    {
+        _itemDataArray = new List<ItemData>[(int)(_cellsSize.x * _cellsSize.y)]; // 셀 개수만큼 리스트 배열 초기화
+
+        for (int i = 0; i < _itemDataArray.Length; i++)
+        {
+            _itemDataArray[i] = new List<ItemData>();
         }
     }
 
@@ -72,18 +82,19 @@ public class GridManager : MonoBehaviour
 
 
     // 모든 셀의 아이템을 제거하는 메서드
-    private void ClearAllItems()
+    public void ClearAllItems()
     {
         foreach (Cell cell in _cells)
         {
             if (cell.IsOccupied())
             {
                 cell.ClearItems(); // 아이템 제거
-                _itemDataArray = new List<ItemData>[(int)_cellsSize.x, (int)_cellsSize.y]; // 이중 리스트 초기화
             }
         }
         Debug.Log("모든 셀의 아이템이 제거되었습니다.");
     }
+
+
 
     public void ClearCollidingCells(DragBlock targetItem)
     {
@@ -198,4 +209,31 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+    public List<ItemData>[] GetCellItemData()
+    {
+        InitializeItemDataArray();
+        int itemCount = 0;
+
+        foreach (Cell cell in _cells)
+        {
+            if (cell.IsOccupied())
+            {
+                List<DragBlock> dragBlockList = cell.GetOccupyingItems();
+                var dragBlockListCopy = new List<DragBlock>(dragBlockList); // 복사본 생성
+
+                foreach (var item in dragBlockListCopy) // 복사본을 반복
+                {
+                    if (itemCount < _itemDataArray.Length)
+                    {
+                        _itemDataArray[itemCount].Add(item.ItemData);
+                        itemCount++;
+                        ClearCollidingCells(item);
+                    }
+                }
+            }
+        }
+
+        return _itemDataArray;
+    }
+
 }

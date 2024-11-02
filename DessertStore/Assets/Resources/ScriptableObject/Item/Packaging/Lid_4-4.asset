@@ -18,4 +18,4 @@ MonoBehaviour:
   subType: 7
   orderIndex: 1
   maxAmount: 0
-  itemSize: {x: 3, y: 3}
+  itemSize: {x: 4, y: 4}
