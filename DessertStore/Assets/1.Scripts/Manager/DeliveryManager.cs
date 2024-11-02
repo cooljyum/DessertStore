@@ -13,22 +13,23 @@ public class DeliveryManager : MonoBehaviour
     [SerializeField] private Button _packageButton;          // 포장가기 버튼
     [SerializeField] private Image _catImage;                // 키리 이미지
     [SerializeField] private TextMeshProUGUI _catMessage;    // 키리 말 TMP
-    [SerializeField] private List<MessageData> deliveryTextDataList; // 상황별 메시지
+    [SerializeField] private List<MessageData> _deliveryTextDataList; // 상황별 메시지
     [SerializeField] private int orderQuantity = 2;                  // 필수 경유 셀의 수
 
     public MapGrid MapGrid;                                  // MapGrid 클래스 참조
     private GameObject _homePoint;                           // 출발 및 도착 지점
     private List<Vector3> _pathPoints = new List<Vector3>(); // 현재 경로를 저장하는 리스트
     private LineRenderer _lineRenderer;                      // 경로를 그리는 라인 렌더러
-    private bool _isDragging;                                // 드래그 상태를 확인하는 플래그
+    private bool _isDragging;                                // 드래그 상태를 확인용
     private float _currentStamina;                           // 현재 남은 체력
     private float _maxStamina = 100f;                        // 최대 체력
-    private float _staminaCostPerCell = 4f;                  // 셀 하나 이동 시 소모되는 체력
+    private float _staminaCostPerCell;                       // 셀 하나 이동 시 소모되는 체력
+    private List<float> _staminaCostPerCellList = new List<float> { 7.6f, 5.8f, 4.7f, 4f, 3f }; // 주문 개수 별 체력 소모율 지정용
     private Dictionary<GameObject, int> _cellVisitCount = new Dictionary<GameObject, int>(); // 셀 방문 횟수를 저장용
-    private Dictionary<MessageType, string> deliveryTextDictionary;                  // 상황별 메시지
+    private Dictionary<MessageType, string> _deliveryTextDictionary;                         // 상황별 메시지
 
-    private List<int> mandatoryCells = new List<int> { 45, 75, 15, 57, 33 }; // 반드시 지나야 하는 셀 인덱스
-    private HashSet<int> visitedMandatoryCells = new HashSet<int>();         // 방문한 필수 셀을 추적할 Set
+    private List<int> _mandatoryCells = new List<int> { 75, 57, 45, 33, 15 }; // 반드시 지나야 하는 셀 인덱스
+    private HashSet<int> _visitedMandatoryCells = new HashSet<int>();         // 방문한 필수 셀을 추적할 Set
 
     private void Start()
     {
@@ -63,6 +64,8 @@ public class DeliveryManager : MonoBehaviour
 
     private void StartDrag()
     {
+        _staminaCostPerCell = _staminaCostPerCellList[ScoreManager.Instance.PackagingCount-1];
+
         if (_homePoint != null)
         {
             _pathPoints.Add(_homePoint.transform.position);
@@ -104,9 +107,9 @@ public class DeliveryManager : MonoBehaviour
 
                     // 필수 경유 셀 방문 체크
                     int cellIndex = MapGrid.GetCellIndex(hitCollider.gameObject);
-                    if (mandatoryCells.Contains(cellIndex))
+                    if (_mandatoryCells.Contains(cellIndex))
                     {
-                        visitedMandatoryCells.Add(cellIndex); // 필수 경유 셀 방문 기록
+                        _visitedMandatoryCells.Add(cellIndex); // 필수 경유 셀 방문 기록
                     }
 
                     // 방문 횟수 증가
@@ -153,7 +156,8 @@ public class DeliveryManager : MonoBehaviour
         }
 
         // 필수 경유 셀 방문 여부 확인
-        bool visitedAllMandatoryCells = visitedMandatoryCells.Count >= orderQuantity;
+        bool visitedAllMandatoryCells = _visitedMandatoryCells.Count >= ScoreManager.Instance.PackagingCount;
+        //bool visitedAllMandatoryCells = _visitedMandatoryCells.Count >= orderQuantity;
 
         if (hasReturnedHome && visitedAllMandatoryCells)
         {
@@ -173,7 +177,7 @@ public class DeliveryManager : MonoBehaviour
 
     private void SetCatMessage(MessageType messageType)
     {
-        MessageData messageData = deliveryTextDataList.Find(data => data.messageType == messageType);
+        MessageData messageData = _deliveryTextDataList.Find(data => data.messageType == messageType);
 
         if (messageData != null)
         {
@@ -205,7 +209,7 @@ public class DeliveryManager : MonoBehaviour
         _lineRenderer.positionCount = 0;
         _currentStamina = _maxStamina;
         _cellVisitCount.Clear(); // 방문 횟수 초기화
-        visitedMandatoryCells.Clear(); // 필수 경유 셀 방문 기록 초기화
+        _visitedMandatoryCells.Clear(); // 필수 경유 셀 방문 기록 초기화
 
         // 모든 PathCell의 색상 초기화
         foreach (var cell in MapGrid.MapCells)
