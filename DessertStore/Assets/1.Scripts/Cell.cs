@@ -63,8 +63,16 @@ public class Cell : MonoBehaviour
     // 셀에 아이템을 추가
     public void AddOccupyingItem(DragBlock item)
     {
-        _occupyingItems.Add(item);
-        UpdateCellColor();
+        // 아이템이 이미 리스트에 존재하는지 확인
+        if (!_occupyingItems.Contains(item))
+        {
+            _occupyingItems.Add(item); // 리스트에 아이템 추가
+            UpdateCellColor(); // 셀 색상 업데이트
+        }
+        else
+        {
+            Debug.LogWarning("아이템이 이미 셀에 존재합니다."); // 이미 존재하는 경우 경고 메시지
+        }
     }
 
     // 셀이 아이템을 차지했는지 확인

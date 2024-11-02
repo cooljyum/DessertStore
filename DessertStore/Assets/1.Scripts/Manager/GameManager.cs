@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class GameManager : MonoBehaviour
 
     private ScoreManager _scoreManager;
     private HeartManager _heartManager;
+
+    [SerializeField] private WitchManager _witchManager; 
+    [SerializeField] private CatManager _catManager; 
 
     private void Awake()
     {
@@ -22,6 +26,9 @@ public class GameManager : MonoBehaviour
 
         _scoreManager = GetComponent<ScoreManager>();
         _heartManager = GetComponent<HeartManager>();
+
+        // 마녀의 액션을 무작위 간격으로 실행하는 코루틴 시작
+        StartCoroutine(WitchActionRoutine());
     }
 
     // 점수 추가 및 하트 업데이트
@@ -41,4 +48,33 @@ public class GameManager : MonoBehaviour
         _scoreManager.ResetScore();
         _heartManager.ResetHearts();
     }
+
+    // 마녀 액션제어
+    public void PlayWitchAction(CharacterState state)
+    {
+        _witchManager.PerformCharacterAction(state);
+    }
+
+    //  액션제어
+    public void PlayCatAction(CharacterState state)
+    {
+        _catManager.PerformCharacterAction(state);
+    }
+
+    // 마녀 액션을 무작위 간격으로 실행하는 코루틴
+    private IEnumerator WitchActionRoutine()
+    {
+        while (true) // 무한 루프
+        {
+            // 무작위 시간(3초 ~ 10초) 기다리기
+            float waitTime = Random.Range(7f, 10f);
+            yield return new WaitForSeconds(waitTime);
+
+            // 무작위 캐릭터 상태 선택 (여기서는 Neutral, Happy)
+            //CharacterState randomState = (CharacterState)Random.Range(0, 2);
+            CharacterState randomState = CharacterState.Basic;
+            PlayWitchAction(randomState);
+        }
+    }
+
 }

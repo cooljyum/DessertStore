@@ -107,6 +107,7 @@ public class POSManager : MonoBehaviour
         else
         {
             Debug.Log("아이템 불일치");
+            GameManager.Instance.PlayWitchAction(CharacterState.Sad);
         }
 
         CreateNewOrder();

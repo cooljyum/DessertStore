@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a4e42002797f24d83f2ce9b020017e, type: 3}
+  m_Name: WitchHappy
+  m_EditorClassIdentifier: 
+  characterState: 1
+  expression: {fileID: 21300000, guid: 51359e9567580ad46a4e2288f446e2c0, type: 3}
+  speechText:
+  - "\uD5E4\uD5E4! \uC608\uC058\uAC8C \uD3EC\uC7A5\uD574\uC57C\uC9C0!"
+  - "\uB2EC\uCF64\uD568\uC774 \uAC00\uB4DD! \uC644\uBCBD\uD574~"
+  - "\uC5B4\uBA38, \uB108\uBB34 \uADC0\uC5FD\uAC8C \uB410\uC5B4!"
+  - "\uD589\uBCF5\uC774 \uC2A4\uB974\uB975 \uB2F4\uAE34 \uB290\uB08C\uC774\uC57C~"
+  - "\uC190\uB2D8\uC774 \uC88B\uC544\uD574 \uC8FC\uBA74 \uC88B\uACA0\uB2E4!"
+  - "\uB0B4 \uB9C8\uC74C\uC744 \uAFB9\uAFB9 \uB2F4\uC544~"
+  - "\uD760... \uC870\uAE08 \uB354 \uC0AC\uB791\uC2A4\uB7FD\uAC8C? \uC644\uC131!"
+  - "\uAC8C\uC774\uC9C0\uAC00 \uCB49\uCB49 \uC62C\uB77C\uAC00\uB77C!"
+  - "\uC544, \uC774\uAC70 \uB108\uBB34 \uADC0\uC5EC\uC6B4 \uAC70 \uC544\uB0D0?"
+  - "\uCD5C\uACE0\uC57C! \uB354 \uB9CE\uC774 \uD3EC\uC7A5\uD558\uACE0 \uC2F6\uC5B4~"
+  - "\uD0A4\uB9AC\uAC00 \uBC30\uB2EC \uC798\uD574\uC8FC\uACA0\uC9C0??"
+  speechBalloonImg: {fileID: 946937579, guid: 98126e0ef310ef54a96fec1d2b55fbec, type: 3}
+  displayDuration: 3

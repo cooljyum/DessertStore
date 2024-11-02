@@ -8,7 +8,8 @@ public class DragBlock : MonoBehaviour
     [SerializeField] private AnimationCurve _curveMovement; // 이동 제어 그래프
     [SerializeField] private AnimationCurve _curveScale;    // 크기 제어 그래프
 
-    private float _appearTime = 0.5f;  // 블록 등장 소요 시간
+    private bool _isOccupied = false;
+
     private float _returnTime = 0.1f;  // 블록 원래 위치 돌아갈 때 소요 시간
 
     [SerializeField] private ItemData _itemData; //아이템 데이터
@@ -44,7 +45,8 @@ public class DragBlock : MonoBehaviour
 
     private void Update()
     {
-        if(!_isMouseUp) MouseDrag();
+        if (_isOccupied) return;
+        if (!_isMouseUp) MouseDrag();
 
         if (Input.GetMouseButtonUp(0))
         {
@@ -87,7 +89,6 @@ public class DragBlock : MonoBehaviour
 
     private void MouseUp()
     {
-
         // 아이템이 차지할 셀 수 계산
         int requiredCells = _itemData.itemSize.x * _itemData.itemSize.y;
 
@@ -107,6 +108,8 @@ public class DragBlock : MonoBehaviour
             {
                 cell.AddOccupyingItem(this);
             }
+
+            _isOccupied = true;
         }
 
         // 크기 조절 애니메이션 초기화

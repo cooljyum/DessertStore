@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a4e42002797f24d83f2ce9b020017e, type: 3}
+  m_Name: WitchBasic
+  m_EditorClassIdentifier: 
+  characterState: 0
+  expression: {fileID: 21300000, guid: fd5096f41d9ac7241986f232fdbe1ca1, type: 3}
+  speechText:
+  - "\uD0A4\uB9AC\uB294 \uC65C\uC774\uB807\uAC8C \uADC0\uC5EC\uC6B8\uAE4C?"
+  - "\uC5B4\uCA4C\uBA74 \uC190\uB2D8\uB4E4 \uC0AC\uB791\uC744 \uBC1B\uC744\uAE4C\uB098
+    .. "
+  - "\uC190\uB2D8\uB4E4 \uBC18\uC751\uC774 \uAD81\uAE08\uD574"
+  - "\uB9C8\uB140\uC778\uAC78 \uC54C\uAE4C..?"
+  - "\uB098\uC758 \uD2B9\uBCC4\uD55C \uB808\uC2DC\uD53C \uC6B0\uD6C4\uD6D7"
+  speechBalloonImg: {fileID: 946937579, guid: 98126e0ef310ef54a96fec1d2b55fbec, type: 3}
+  displayDuration: 3

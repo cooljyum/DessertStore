@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a4e42002797f24d83f2ce9b020017e, type: 3}
+  m_Name: CatAngry
+  m_EditorClassIdentifier: 
+  characterState: 2
+  expression: {fileID: 21300000, guid: 4c7c05b5912150749bbd15372df47e4d, type: 3}
+  speechText:
+  - "\uC774\uB7F0, \uC5C9\uB9DD\uC774\uC57C\uB0E5!"
+  - "\uC815\uB9D0 \uC18D\uC0C1\uD574\uC9C0\uB124\uB0E5-_-"
+  - "\uADC0\uCC2E\uAC8C \uD558\uC9C0 \uB9D0\uC544\uC918\uB0E5.."
+  - "\uC5B4\uB5BB\uAC8C \uC774\uB7F4 \uC218\uAC00 \uC788\uC5B4! \uB098 \uD654\uB0AC\uB2E4\uB0E5!"
+  - "\uC774\uAC70, \uB0B4\uAC00 \uB2E4\uC2DC \uD574\uC57C\uACA0\uC5B4\uB0E5!"
+  - "\uC6B0\uC528 \uB69C\uC2DC \uB530\uC2DC\uB2E4 \uB0E5!!"
+  speechBalloonImg: {fileID: 946937579, guid: 98126e0ef310ef54a96fec1d2b55fbec, type: 3}
+  displayDuration: 3

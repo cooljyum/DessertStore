@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a4e42002797f24d83f2ce9b020017e, type: 3}
+  m_Name: WitchSad
+  m_EditorClassIdentifier: 
+  characterState: 3
+  expression: {fileID: 21300000, guid: 6099b2c814afd504884dfc91dc6cd3b7, type: 3}
+  speechText:
+  - "\uC544, \uD3EC\uC7A5\uC774 \uB9DD\uD588\uC5B4! \uC2AC\uD504\uB2E4!"
+  - "\uD751\uD751, \uC608\uC058\uAC8C \uBABB\uD588\uB124..."
+  - "\uC65C \uC774\uB807\uAC8C \uBABB\uD588\uC9C0? \uC544\uC26C\uC6CC!"
+  - "\uC774\uB7F0, \uB354 \uC0AC\uB791\uC2A4\uB7FD\uAC8C \uD560\uAC78!"
+  - "\uD3EC\uC7A5 \uC2E4\uD328! \uB2E4\uC2DC \uD574\uBCFC\uAC8C!"
+  - "\uC73C\uC544, \uB108\uBB34 \uC2AC\uD37C... \uB2E4\uC2DC \uB3C4\uC804!"
+  - "\uC548 \uB3FC! \uC774\uB7F0 \uD3EC\uC7A5\uC740 \uC548 \uB3FC!"
+  - "\uB2E4\uC74C\uC5D4 \uAF2D \uC608\uC058\uAC8C \uD560 \uAC70\uC57C!"
+  - "\uD750\uC5C9, \uB9C8\uC74C\uC774 \uC544\uD30C..."
+  - "\uD3EC\uC7A5\uB3C4 \uB9C8\uC74C\uC774\uC57C! \uB2E4\uC74C\uC5D4 \uC798\uD560\uAC8C!"
+  - "\uD0A4\uB9AC\uC57C.. \uC880\uB9CC \uB354 \uAE30\uB2E4\uB824"
+  speechBalloonImg: {fileID: 946937579, guid: 98126e0ef310ef54a96fec1d2b55fbec, type: 3}
+  displayDuration: 3

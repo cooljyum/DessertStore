@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a4e42002797f24d83f2ce9b020017e, type: 3}
+  m_Name: CatHappy
+  m_EditorClassIdentifier: 
+  characterState: 1
+  expression: {fileID: 21300000, guid: 0bc3525bef2620b46969bbae779a4b38, type: 3}
+  speechText:
+  - "\uC5B4\uCA5C \uC774\uB807\uAC8C \uC798\uD560 \uC218 \uC788\uC9C0? \uB300\uB2E8\uD574\uB0E5!"
+  - "\uC640, \uC774 \uD3EC\uC7A5\uC740 \uC9C4\uC9DC \uC608\uC058\uB2E4\uB0E5~! \uC644\uBCBD\uD574!"
+  - "\uCD5C\uACE0\uC57C! \uB2E4\uB4E4 \uCE6D\uCC2C\uD560 \uAC78,\uB0E5!"
+  - "\uD3EC\uC7A5\uC774 \uC774\uB807\uAC8C \uC608\uC058\uB2C8, \uC190\uB2D8\uB4E4\uC774
+    \uBC18\uD560 \uAC70\uC57C,\uB0E5!"
+  - "\uD3EC\uC7A5\uB3C4 \uADC0\uC5FD\uACE0 \uBA4B\uC838! \uD0A4\uB9AC\uC758 \uC13C\uC2A4\uAC00
+    \uBE5B\uB098,\uB0E5!"
+  - " \uC644\uC804 \uADC0\uC5FD\uACE0 \uB9DB\uC788\uC5B4 \uBCF4\uC778\uB2E4\uB0E5\u3147\u3145\u3147"
+  speechBalloonImg: {fileID: 946937579, guid: 98126e0ef310ef54a96fec1d2b55fbec, type: 3}
+  displayDuration: 3

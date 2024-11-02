@@ -54,8 +54,9 @@ public class ScoreManager : MonoBehaviour
         {
             _currentStamina = _maxStamina;
         }
-
         Debug.Log($"현재 스테미나 = {_currentStamina}");
+
+        GameManager.Instance.PlayWitchAction(CharacterState.Happy);
     }
 
     // 점수 초기화

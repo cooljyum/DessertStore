@@ -65,7 +65,10 @@ public class GridManager : MonoBehaviour
     // 셀을 생성하는 메서드
     private void CreateCell(Vector3 position, int x, int y)
     {
-        GameObject clone = Instantiate(_cellPrefab, position, Quaternion.identity, transform);
+        // 오프셋 추가
+        Vector3 cellPosition = position + new Vector3(.11f, -0.26f, 0f);
+
+        GameObject clone = Instantiate(_cellPrefab, cellPosition, Quaternion.identity, transform);
         Cell cellScript = clone.GetComponent<Cell>();
 
         if (cellScript != null)
@@ -173,15 +176,83 @@ public class GridManager : MonoBehaviour
     {
         int x = selectedCell.xIndex;
         int y = selectedCell.yIndex;
-        int startX = x - (width - 1) / 2; // 아이템 너비를 반영
-        int startY = y + (height - 1) / 2; // 아이템 높이를 반영
+        
 
+        int startX = 0;
+        int startY = 0;
+
+        // 아이템 크기에 따라 시작 좌표 계산
+        switch (width)
+        {
+            case 1: // 1x1, 1x2, 1x3
+                startX = x;
+                startY = y + (height > 1 ? 1 : 0); // 높이에 맞게 아래쪽으로 이동;
+
+                if (y == 0 && height > 2)
+                {
+                    startY += 1;
+                }
+                break;
+
+            case 2: // 2x1, 2x2
+                startX = x - 1; // 2칸일 때 왼쪽으로 1칸 이동
+                startY = y + (height > 1 ? 1 : 0); // 높이에 맞게  위쪽으로 이동
+
+                if (x == 0)
+                {
+                    startX += 1;
+                }
+
+                if (y == 0 && height > 1)
+                {
+                    startY += 1;
+                }
+
+                break;
+
+            case 3: // 3x1, 3x3
+                startX = x - 1; // 3칸일 때 왼쪽으로 1칸 이동
+                startY = y + (height == 1 ? 0 : (height == 2 ? 1 : 2)); // 높이에 맞게 위쪽으로 이동
+                if (x == 0)
+                {
+                    startX += 2;
+                }
+
+                if (y == 0 && height > 1)
+                {
+                    startY += 2;
+                }
+                break;
+
+            case 4: // 4x4
+                startX = x - 2; // 4칸일 때 왼쪽으로 2칸 이동
+                startY = y + 2; // 높이에 맞게 위쪽으로 이동
+
+                if (x == 0)
+                {
+                    startX += 2;
+                }
+
+                if (y == 0 && height > 1)
+                {
+                    startY += 2;
+                }
+
+                break;
+
+            default:
+                startX = x - (width - 1) / 2; // 기본적인 경우 (가운데 정렬)
+                startY = y - (height - 1) / 2; // 기본적인 경우 (가운데 정렬)
+                break;
+        }
+
+        // 선택할 셀 좌표
         for (int i = 0; i < height; i++)
         {
             for (int j = 0; j < width; j++)
             {
                 int cellX = startX + j; // 시작 X 좌표에 j를 더함
-                int cellY = startY + i; // 시작 Y 좌표에서 i를 뺌
+                int cellY = startY - i; // 시작 Y 좌표에서 i를 뺌 (Y축 반전)
 
                 if (cellX >= 0 && cellX < _cells.GetLength(0) && cellY >= 0 && cellY < _cells.GetLength(1))
                 {
@@ -209,6 +280,10 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+
+
+
     public List<ItemData>[] GetCellItemData()
     {
         InitializeItemDataArray();
@@ -226,7 +301,7 @@ public class GridManager : MonoBehaviour
                     if (itemCount < _itemDataArray.Length)
                     {
                         _itemDataArray[itemCount].Add(item.ItemData);
-                        itemCount++;
+                        itemCount++; 
                         ClearCollidingCells(item);
                     }
                 }
