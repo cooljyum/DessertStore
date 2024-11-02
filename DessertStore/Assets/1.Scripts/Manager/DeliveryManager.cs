@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ public class DeliveryManager : MonoBehaviour
     [SerializeField] private Slider _staminaBar;             // 체력바 UI
     [SerializeField] private Button _eraseButton;            // 길 지우기 버튼
     [SerializeField] private Button _packageButton;          // 포장가기 버튼
+    [SerializeField] private TextMeshProUGUI _catMessage;    // 키리 말 TMP
+    [SerializeField] private List<MessageData> deliveryTextDataList; // 상황별 메시지
+
     public MapGrid MapGrid;                                  // MapGrid 클래스 참조
     private GameObject _homePoint;                           // 출발 및 도착 지점
     private List<Vector3> _pathPoints = new List<Vector3>(); // 현재 경로를 저장하는 리스트
@@ -20,6 +24,7 @@ public class DeliveryManager : MonoBehaviour
     private float _maxStamina = 100f;                        // 최대 체력
     private float _staminaCostPerCell = 5f;                  // 셀 하나 이동 시 소모되는 체력
     private Dictionary<GameObject, int> _cellVisitCount = new Dictionary<GameObject, int>(); // 셀 방문 횟수를 저장용
+    private Dictionary<MessageType, string> deliveryTextDictionary;                  // 상황별 메시지
 
     private void Start()
     {
@@ -41,32 +46,15 @@ public class DeliveryManager : MonoBehaviour
         _lineRenderer.startWidth = 0.1f;
         _lineRenderer.endWidth = 0.1f;
         _currentStamina = _maxStamina;
+        SetCatMessage(MessageType.Default);
 
         InvokeRepeating("LogStatus", 1f, 1f); // 1초마다 체력과 셀 방문 횟수 출력
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
-
-            if (_homePoint != null && Vector3.Distance(mousePosition, _homePoint.transform.position) < 0.5f)
-            {
-                StartDrag();
-            }
-        }
-
-        if (_isDragging)
-        {
-            ContinueDrag();
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            EndDrag();
-        }
+        UpdateDrag();
+        UpdateStaminaGauge();
     }
 
     private void StartDrag()
@@ -147,27 +135,38 @@ public class DeliveryManager : MonoBehaviour
 
         if (_homePoint != null)
         {
-            // 마우스 위치 가져오기
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;
-
-            // 홈 포인트와의 거리 계산
             float distanceToHome = Vector3.Distance(mousePosition, _homePoint.transform.position);
-
-            // 거리가 0.5f 이내라면 홈 포인트에 도착한 것으로 간주
             hasReturnedHome = distanceToHome <= 0.5f;
         }
 
         if (hasReturnedHome)
         {
-            Debug.Log("성공적으로 돌아왔습니다!");
+            SetCatMessage(MessageType.Success);
+            Debug.Log("성공!");
         }
         else
         {
-            Debug.Log("집에 돌아가지 못했습니다.");
+            SetCatMessage(MessageType.Failure);
+            Debug.Log("실패!");
         }
 
         ResetPath();
+    }
+
+    private void SetCatMessage(MessageType messageType)
+    {
+        MessageData messageData = deliveryTextDataList.Find(data => data.messageType == messageType);
+
+        if (messageData != null)
+        {
+            _catMessage.text = messageData.text; // 텍스트 출력
+        }
+        else
+        {
+            _catMessage.text = "메시지를 찾을 수 없습니다."; // 메시지 데이터가 없을 때
+        }
     }
 
     private void ResetPath()
@@ -189,13 +188,38 @@ public class DeliveryManager : MonoBehaviour
         }
     }
 
+    private void UpdateDrag()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0;
+
+            if (_homePoint != null && Vector3.Distance(mousePosition, _homePoint.transform.position) < 0.5f)
+            {
+                StartDrag();
+            }
+        }
+
+        if (_isDragging)
+        {
+            ContinueDrag();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            EndDrag();
+        }
+    }
+
+    private void UpdateStaminaGauge()
+    {
+        _staminaBar.value = _currentStamina / _maxStamina;
+    }
+
     private void LogStatus()
     {
         Debug.Log($"현재 체력: {_currentStamina}");
-        foreach (var cell in _cellVisitCount)
-        {
-            Debug.Log($"{cell.Key.name}\n셀 방문 횟수: {cell.Value}");
-        }
     }
 
     public void OnEraseButtonClicked()
