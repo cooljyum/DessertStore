@@ -56,12 +56,23 @@ public class MapGrid : MonoBehaviour
         // 맨 아래 오른쪽 셀을 홈 포인트로 지정
         GameObject homePoint = transform.GetChild(84).gameObject;
         _homePoint = homePoint;
-        //var homeCollider = _homePoint.AddComponent<BoxCollider2D>();
-        //homeCollider.gameObject.SetActive(false);
 
         var homeSpriteRenderer = homePoint.GetComponent<SpriteRenderer>();
         if (homeSpriteRenderer != null)
             homeSpriteRenderer.color = Color.red;
+    }
+
+    public int GetCellIndex(GameObject cell)
+    {
+        if (_mapCells.Contains(cell))
+        {
+            return _mapCells.IndexOf(cell);
+        }
+        else
+        {
+            Debug.LogWarning("해당 셀은 맵에 존재하지 않습니다.");
+            return -1;
+        }
     }
 
     public GameObject GetHomePoint()

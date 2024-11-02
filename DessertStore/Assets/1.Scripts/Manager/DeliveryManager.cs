@@ -11,8 +11,10 @@ public class DeliveryManager : MonoBehaviour
     [SerializeField] private Transform _gridTransform;       // 맵 그리드 오브젝트
     [SerializeField] private Slider _staminaBar;             // 체력바 UI
     [SerializeField] private Button _packageButton;          // 포장가기 버튼
+    [SerializeField] private Image _catImage;                // 키리 이미지
     [SerializeField] private TextMeshProUGUI _catMessage;    // 키리 말 TMP
     [SerializeField] private List<MessageData> deliveryTextDataList; // 상황별 메시지
+    [SerializeField] private int orderQuantity = 2;                  // 필수 경유 셀의 수
 
     public MapGrid MapGrid;                                  // MapGrid 클래스 참조
     private GameObject _homePoint;                           // 출발 및 도착 지점
@@ -21,9 +23,12 @@ public class DeliveryManager : MonoBehaviour
     private bool _isDragging;                                // 드래그 상태를 확인하는 플래그
     private float _currentStamina;                           // 현재 남은 체력
     private float _maxStamina = 100f;                        // 최대 체력
-    private float _staminaCostPerCell = 5f;                  // 셀 하나 이동 시 소모되는 체력
+    private float _staminaCostPerCell = 4f;                  // 셀 하나 이동 시 소모되는 체력
     private Dictionary<GameObject, int> _cellVisitCount = new Dictionary<GameObject, int>(); // 셀 방문 횟수를 저장용
     private Dictionary<MessageType, string> deliveryTextDictionary;                  // 상황별 메시지
+
+    private List<int> mandatoryCells = new List<int> { 45, 75, 15, 57, 33 }; // 반드시 지나야 하는 셀 인덱스
+    private HashSet<int> visitedMandatoryCells = new HashSet<int>();         // 방문한 필수 셀을 추적할 Set
 
     private void Start()
     {
@@ -45,6 +50,7 @@ public class DeliveryManager : MonoBehaviour
         _lineRenderer.endWidth = 0.1f;
         _currentStamina = _maxStamina;
         SetCatMessage(MessageType.Default);
+        SetCatImage("MouseClose");
 
         InvokeRepeating("LogStatus", 1f, 1f); // 1초마다 체력과 셀 방문 횟수 출력
     }
@@ -96,6 +102,13 @@ public class DeliveryManager : MonoBehaviour
                     _lineRenderer.positionCount = _pathPoints.Count;
                     _lineRenderer.SetPositions(_pathPoints.ToArray());
 
+                    // 필수 경유 셀 방문 체크
+                    int cellIndex = MapGrid.GetCellIndex(hitCollider.gameObject);
+                    if (mandatoryCells.Contains(cellIndex))
+                    {
+                        visitedMandatoryCells.Add(cellIndex); // 필수 경유 셀 방문 기록
+                    }
+
                     // 방문 횟수 증가
                     if (_cellVisitCount.ContainsKey(hitCollider.gameObject))
                     {
@@ -139,14 +152,19 @@ public class DeliveryManager : MonoBehaviour
             hasReturnedHome = distanceToHome <= 0.5f;
         }
 
-        if (hasReturnedHome)
+        // 필수 경유 셀 방문 여부 확인
+        bool visitedAllMandatoryCells = visitedMandatoryCells.Count >= orderQuantity;
+
+        if (hasReturnedHome && visitedAllMandatoryCells)
         {
             SetCatMessage(MessageType.Success);
+            SetCatImage("MouseOpen");
             Debug.Log("성공!");
         }
         else
         {
             SetCatMessage(MessageType.Failure);
+            SetCatImage("Angry");
             Debug.Log("실패!");
         }
 
@@ -163,7 +181,21 @@ public class DeliveryManager : MonoBehaviour
         }
         else
         {
-            _catMessage.text = "메시지를 찾을 수 없습니다."; // 메시지 데이터가 없을 때
+            _catMessage.text = "메시지를 찾을 수 없습니다.";
+        }
+    }
+
+    private void SetCatImage(string imageType)
+    {
+        Sprite newSprite = Resources.Load<Sprite>($"Sprite/Character/Cat/Cat_{imageType}");
+
+        if (newSprite != null)
+        {
+            _catImage.sprite = newSprite;
+        }
+        else
+        {
+            Debug.LogWarning($"이미지를 찾을 수 없습니다: Sprite/Character/Cat/Cat_{imageType}");
         }
     }
 
@@ -173,6 +205,7 @@ public class DeliveryManager : MonoBehaviour
         _lineRenderer.positionCount = 0;
         _currentStamina = _maxStamina;
         _cellVisitCount.Clear(); // 방문 횟수 초기화
+        visitedMandatoryCells.Clear(); // 필수 경유 셀 방문 기록 초기화
 
         // 모든 PathCell의 색상 초기화
         foreach (var cell in MapGrid.MapCells)
