@@ -9,13 +9,15 @@ public class MapGrid : MonoBehaviour
     private int _columns = 13;                       // 가로 셀 개수
     private int _rows = 7;                           // 세로 셀 개수
     private float _cellSize = 1.0f;                  // 셀 간격
+    private List<GameObject> _mapCells = new List<GameObject>();
+    public List<GameObject> MapCells => _mapCells;
 
-    void Start()
+    private void Start()
     {
         GenerateGrid();
     }
 
-    void GenerateGrid()
+    public void GenerateGrid()
     {
         // 왼쪽 아래 기준으로 셀이 생성되도록 시작 위치를 계산
         Vector3 startPosition = transform.position - new Vector3(_columns * _cellSize / 1.6f, _rows * _cellSize / 2.25f, 0);
@@ -47,11 +49,15 @@ public class MapGrid : MonoBehaviour
                     if (spriteRenderer != null)
                         spriteRenderer.color = Color.white;
                 }
+
+                _mapCells.Add(cell);
             }
         }
         // 맨 아래 오른쪽 셀을 홈 포인트로 지정
         GameObject homePoint = transform.GetChild(84).gameObject;
         _homePoint = homePoint;
+        //var homeCollider = _homePoint.AddComponent<BoxCollider2D>();
+        //homeCollider.gameObject.SetActive(false);
 
         var homeSpriteRenderer = homePoint.GetComponent<SpriteRenderer>();
         if (homeSpriteRenderer != null)
