@@ -51,7 +51,7 @@ public class DeliveryManager : MonoBehaviour
         _lineRenderer.endWidth = 0.1f;
         _currentStamina = _maxStamina;
         SetCatMessage(MessageType.Default);
-        SetCatImage("MouseClose");
+        SetCatImage("Basic");
 
         InvokeRepeating("LogStatus", 1f, 1f); // 1초마다 체력과 셀 방문 횟수 출력
     }
@@ -162,7 +162,7 @@ public class DeliveryManager : MonoBehaviour
         if (hasReturnedHome && visitedAllMandatoryCells)
         {
             SetCatMessage(MessageType.Success);
-            SetCatImage("MouseOpen");
+            SetCatImage("Happy");
             Debug.Log("성공!");
         }
         else
