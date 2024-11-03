@@ -23,6 +23,7 @@ public class StoryManager : MonoBehaviour
     {
         _skipButton.onClick.AddListener(OnSkipButtonClicked);
         ShowDialogue(_currentIndex);
+        SoundManager.Instance.PlayBG("StoryBGM1");
     }
 
     private void Update()

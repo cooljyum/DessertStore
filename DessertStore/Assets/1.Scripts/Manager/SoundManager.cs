@@ -114,4 +114,7 @@ public class SoundManager : MonoBehaviour
     {
         _fxVolume = Mathf.Clamp01(volume);
     }
+
+    public float GetBGVolume() => _bgVolume;
+    public float GetFXVolume() => _fxVolume;
 }

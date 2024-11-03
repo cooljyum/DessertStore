@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
 
         IsGamePlay = true;
 
+        SoundManager.Instance.PlayBG("MainBGM");
+
         // 마녀의 액션을 무작위 간격으로 실행하는 코루틴 시작
         StartCoroutine(WitchActionRoutine());
     }
