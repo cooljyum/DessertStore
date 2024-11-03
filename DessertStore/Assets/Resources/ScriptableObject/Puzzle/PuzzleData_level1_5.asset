@@ -15,7 +15,9 @@ MonoBehaviour:
   gridRecipeDatas:
   - gridRecipeCount: 1
     gridRecipeData: {fileID: 11400000, guid: 4b0be53f69375cb489b38d2cb4730b8a, type: 2}
-  - gridRecipeCount: 2
+  - gridRecipeCount: 1
     gridRecipeData: {fileID: 11400000, guid: 69f0c7d3bded82449ae2d3a0648e2d1d, type: 2}
   - gridRecipeCount: 1
-    gridRecipeData: {fileID: 11400000, guid: 0d7c2aa79e96be440ad0ab6b714cd986, type: 2}
+    gridRecipeData: {fileID: 11400000, guid: 778c109f414adb241939cf9c2c036b8d, type: 2}
+  - gridRecipeCount: 1
+    gridRecipeData: {fileID: 11400000, guid: 1299de9fffe069140b04ed602502c665, type: 2}

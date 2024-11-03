@@ -102,7 +102,7 @@ public class POSManager : MonoBehaviour
         {
             Debug.Log("모든 주문이 일치합니다!");
             Debug.Log("점수 +1, 현재 점수: " );
-            ScoreManager.Instance.AddPackagingCount(1);
+            GameManager.Instance.OnPackagingSuccess();
         }
         else
         {

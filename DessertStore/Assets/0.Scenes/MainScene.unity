@@ -2739,6 +2739,7 @@ MonoBehaviour:
   _storyPanel: {fileID: 0}
   _stagePanel: {fileID: 0}
   _staminaBar: {fileID: 1465622560}
+  _menuScrollRect: {fileID: 7287459978474343158}
 --- !u!1 &1050853421
 GameObject:
   m_ObjectHideFlags: 0
@@ -7169,8 +7170,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 50
-    m_Right: 50
+    m_Left: 15
+    m_Right: 20
     m_Top: 25
     m_Bottom: 25
   m_ChildAlignment: 0
@@ -8217,8 +8218,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 11.31, y: 8.94999}
-  m_SizeDelta: {x: 1353.62, y: 242.1}
+  m_AnchoredPosition: {x: 6, y: 8.94999}
+  m_SizeDelta: {x: 1328.36, y: 242.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3791605042658697456
 MonoBehaviour:

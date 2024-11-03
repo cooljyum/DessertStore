@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HeartManager _heartManager;
 
     [SerializeField] private WitchManager _witchManager; 
-    [SerializeField] private CatManager _catManager; 
+    [SerializeField] private CatManager _catManager;
 
     private void Awake()
     {
@@ -26,8 +26,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        _scoreManager = GetComponent<ScoreManager>();
-        _heartManager = GetComponent<HeartManager>();
+        // HeartManager와 ScoreManager 인스턴스를 찾거나 직접 할당
+        _scoreManager = _scoreManager ?? FindObjectOfType<ScoreManager>();
+        _heartManager = _heartManager ?? FindObjectOfType<HeartManager>();
 
         IsGamePlay = true;
 
@@ -35,10 +36,18 @@ public class GameManager : MonoBehaviour
         StartCoroutine(WitchActionRoutine());
     }
 
+
     // 점수 추가 및 하트 업데이트
     public void AddScore(int amount)
     {
         _scoreManager.AddScore(amount);
+        _heartManager.OnOrderSuccess();
+    }
+
+    // 포장 성공시 부르는 함수
+    public void OnPackagingSuccess()
+    {
+        _scoreManager.AddPackagingCount(1);
         _heartManager.OnOrderSuccess();
     }
 
