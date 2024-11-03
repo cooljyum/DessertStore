@@ -14,6 +14,7 @@ public class StartManager : MonoBehaviour
     private void Start()
     {
         _startButton.onClick.AddListener(OnStartButtonClicked);
+        SoundManager.Instance.PlayBG("StartBGM");
     }
 
     private void Update()
