@@ -52,6 +52,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: df72a5377d57aef4287de5c9dc765d82, type: 3}
   - key: MainBGM
     clip: {fileID: 8300000, guid: 2da26ed03a915db4495180c9479648b6, type: 3}
+  - key: DeliveryBGM
+    clip: {fileID: 8300000, guid: 4a1515edeee1eb84b83c296e5344baa1, type: 3}
+  - key: EndingBGM
+    clip: {fileID: 8300000, guid: f4d22e99a1234f34f964ce0a5dc74f4a, type: 3}
   _clipEffectInfos: []
 --- !u!82 &1174440535849278755
 AudioSource:
@@ -67,7 +71,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

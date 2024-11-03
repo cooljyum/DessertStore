@@ -31,6 +31,8 @@ public class DeliveryManager : MonoBehaviour
     private List<int> _mandatoryCells = new List<int> { 75, 57, 45, 33, 15 }; // 반드시 지나야 하는 셀 인덱스
     private HashSet<int> _visitedMandatoryCells = new HashSet<int>();         // 방문한 필수 셀을 추적할 Set
 
+    private bool _isGoMain = false;
+
     private void Start()
     {
         _packageButton.onClick.AddListener(OnPackageButtonClicked);
@@ -54,6 +56,8 @@ public class DeliveryManager : MonoBehaviour
         SetCatImage("Basic");
 
         InvokeRepeating("LogStatus", 1f, 1f); // 1초마다 체력과 셀 방문 횟수 출력
+
+        SoundManager.Instance.PlayBG("DeliveryBGM");
     }
 
     private void Update()
@@ -64,7 +68,15 @@ public class DeliveryManager : MonoBehaviour
 
     private void StartDrag()
     {
-        _staminaCostPerCell = _staminaCostPerCellList[ScoreManager.Instance.PackagingCount-1];
+        if (ScoreManager.Instance.PackagingCount > 0)
+{
+    _staminaCostPerCell = _staminaCostPerCellList[ScoreManager.Instance.PackagingCount - 1];
+}
+else
+{
+    // PackagingCount가 0일 때의 기본값 설정 (예: 0으로 초기화)
+    _staminaCostPerCell = 0; // 또는 원하는 기본값
+}
 
         if (_homePoint != null)
         {
@@ -167,6 +179,7 @@ public class DeliveryManager : MonoBehaviour
         }
         else
         {
+            if(_isGoMain) 
             SetCatMessage(MessageType.Failure);
             SetCatImage("Angry");
             Debug.Log("실패!");

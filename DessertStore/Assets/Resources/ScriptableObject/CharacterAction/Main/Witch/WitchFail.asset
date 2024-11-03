@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a4e42002797f24d83f2ce9b020017e, type: 3}
+  m_Name: WitchFail
+  m_EditorClassIdentifier: 
+  characterState: 4
+  expression: {fileID: 21300000, guid: 6099b2c814afd504884dfc91dc6cd3b7, type: 3}
+  speechText:
+  - "\uD3EC\uC7A5\uD574\uC918..\u315C\u3145\u3160"
+  speechBalloonImg: {fileID: 21300000, guid: b4fefe1c3339e7c419f8fdd61cebe7fd, type: 3}
+  displayDuration: 3

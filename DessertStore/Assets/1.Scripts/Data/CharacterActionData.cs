@@ -6,6 +6,7 @@ public enum CharacterState
     Happy,
     Angry,
     Sad,
+    Fail
 }
 
 [CreateAssetMenu(fileName = "New CharacterActionData", menuName = "Character/ActionData")]

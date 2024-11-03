@@ -1,11 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HeartManager : MonoBehaviour
 {
     public static HeartManager Instance;
-
-    [SerializeField]private Text scoreText;                // 호감도 표시용 텍스트 UI
 
     [SerializeField] private int _currentScore = 50;       // 초기 호감도
     [SerializeField] private float _successIncrement = 10f; // 성공 시 호감도 증가량
@@ -27,6 +26,7 @@ public class HeartManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+   
 
     void Start()
     {
@@ -37,7 +37,12 @@ public class HeartManager : MonoBehaviour
         InvokeRepeating("UpdateScoreOverTime", 1.5f, 1.5f);
 
         // 초기 호감도 표시
-        UpdateScoreUI();
+        MainManager.Instance.UpdateScoreUI();
+    }
+
+    public string GetCurScore() 
+    {
+        return _currentScore.ToString();
     }
 
     // 주문 성공 시 호출
@@ -74,27 +79,23 @@ public class HeartManager : MonoBehaviour
     private void IncreaseScore(float amount)
     {
         _currentScore = Mathf.Clamp(_currentScore + (int)amount, _minScore, _maxScore);
-        UpdateScoreUI();
+        MainManager.Instance.UpdateScoreUI();
     }
 
     // 호감도 감소 함수
     private void DecreaseScore(float amount)
     {
         _currentScore = Mathf.Clamp(_currentScore - (int)amount, _minScore, _maxScore);
-        UpdateScoreUI();
+        MainManager.Instance.UpdateScoreUI();
     }
 
     // UI 업데이트 함수
-    private void UpdateScoreUI()
-    {
-        scoreText.text = _currentScore.ToString();
-    }
 
     // 하트 수 초기화 함수
     public void ResetHearts()
     {
         _currentScore = 50; // 초기값으로 설정 (여기서 초기값은 필요에 따라 수정 가능)
-        UpdateScoreUI();    // UI 업데이트
+        MainManager.Instance.UpdateScoreUI();    // UI 업데이트
     }
 
     // 게임 종료시 1초 마다 깎이는 호감도 종료

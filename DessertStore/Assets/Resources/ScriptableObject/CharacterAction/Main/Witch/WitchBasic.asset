@@ -21,5 +21,5 @@ MonoBehaviour:
   - "\uC190\uB2D8\uB4E4 \uBC18\uC751\uC774 \uAD81\uAE08\uD574"
   - "\uB9C8\uB140\uC778\uAC78 \uC54C\uAE4C..?"
   - "\uB098\uC758 \uD2B9\uBCC4\uD55C \uB808\uC2DC\uD53C \uC6B0\uD6C4\uD6D7"
-  speechBalloonImg: {fileID: 946937579, guid: 98126e0ef310ef54a96fec1d2b55fbec, type: 3}
+  speechBalloonImg: {fileID: 21300000, guid: 1d54b05d3497507428cfd9f996891a3e, type: 3}
   displayDuration: 3

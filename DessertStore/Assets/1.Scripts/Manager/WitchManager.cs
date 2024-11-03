@@ -50,7 +50,8 @@ public class WitchManager : MonoBehaviour
             case CharacterState.Sad:
                 GameManager.Instance.PlayCatAction(CharacterState.Angry); // 화난 상태로 고양이 말하기
                 break;
-
+            case CharacterState.Fail:
+                break;
             default:
                 GameManager.Instance.PlayCatAction(CharacterState.Basic); // 기본 상태로 고양이 말하기
                 break;

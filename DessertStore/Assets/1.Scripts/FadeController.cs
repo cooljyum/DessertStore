@@ -1,12 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FadeController : MonoBehaviour
 {
-    private Image fadeImage;
+    [SerializeField] private Image fadeImage;
+    [SerializeField] private float startFadeDuration = 1f; // 시작 시 페이드아웃 지속 시간 설정
+
+    private void Start()
+    {
+        // 시작 시 페이드아웃
+        FadeIn(startFadeDuration);
+    }
 
     // 페이드 인 함수
     public void FadeIn(float duration)
@@ -26,9 +31,15 @@ public class FadeController : MonoBehaviour
 
     private void InstantiateFadeOverlay()
     {
-        GameObject overlayInstance = Instantiate(fadeOverlayPrefab);
-        fadeImage = overlayInstance.GetComponent<Image>();
-        overlayInstance.transform.SetParent(GameObject.Find("Canvas").transform, false); // Canvas에 붙이기
+        // fadeImage가 null일 경우 오버레이 이미지 생성 및 Canvas에 추가
+        GameObject overlayInstance = new GameObject("FadeOverlay");
+        fadeImage = overlayInstance.AddComponent<Image>();
+        overlayInstance.transform.SetParent(GameObject.Find("Canvas").transform, false);
+
+        RectTransform rt = fadeImage.GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.sizeDelta = Vector2.zero;
     }
 
     private IEnumerator Fade(float startAlpha, float endAlpha, float duration)
