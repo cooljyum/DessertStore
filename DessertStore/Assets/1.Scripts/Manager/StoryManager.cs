@@ -70,21 +70,20 @@ public class StoryManager : MonoBehaviour
 
     private void UpdateCharacterEmotion(string speaker, string catEmotion, string witchEmotion)
     {
+        // 고양이 표정 업데이트
+        _catFace.sprite = GetEmotionSprite("Cat", catEmotion);
+
+        // 고양이 대사일 때만 날개 애니메이션 시작
         if (speaker == "Cat")
         {
-            _catFace.sprite = GetEmotionSprite(speaker, catEmotion);
-
-            // Cat의 대사일 때만 날개 애니메이션 시작
             if (_wingCoroutine == null)
             {
                 _wingCoroutine = StartCoroutine(WingAnimation());
             }
         }
-        else if (speaker == "Witch")
+        else
         {
-            _witchFace.sprite = GetEmotionSprite(speaker, witchEmotion);
-
-            // Witch의 대사일 때는 날개 애니메이션 중지
+            // 마녀가 대사 중일 때는 날개 애니메이션 중지
             if (_wingCoroutine != null)
             {
                 StopCoroutine(_wingCoroutine);
@@ -92,6 +91,9 @@ public class StoryManager : MonoBehaviour
                 _catWing.sprite = Resources.Load<Sprite>("Sprite/Character/Cat/Cat_WingDown"); // 기본 상태로 설정
             }
         }
+
+        // 마녀 표정 업데이트
+        _witchFace.sprite = GetEmotionSprite("Witch", witchEmotion);
     }
 
     private Sprite GetEmotionSprite(string speaker, string emotion)
