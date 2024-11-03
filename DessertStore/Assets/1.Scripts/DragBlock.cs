@@ -66,7 +66,7 @@ public class DragBlock : MonoBehaviour
         if (_spriteRenderer != null && _itemData != null)
         {
             _spriteRenderer.sprite = _itemData.itemImage; // 아이템 이미지로 설정
-            _spriteRenderer.sortingOrder = _itemData.orderIndex+1; // 인덱스를 기반으로 정렬 순서 설정
+            _spriteRenderer.sortingOrder = _itemData.orderIndex + 3; // 인덱스를 기반으로 정렬 순서 설정
         }
     }
 
